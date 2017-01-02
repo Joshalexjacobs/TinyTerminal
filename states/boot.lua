@@ -13,11 +13,7 @@ function boot:enter()
   addLine("ProDOS 1.0", 0.2)
   addLine("1-Jan-17", 0.2)
   addLine("Sun 19:02", 0.2)
-  addLine(".", 1.0)
-  addLine(".", 1.0)
-  addLine(".", 1.0)
-  addLine(".", 1.0)
-  addLine(".", 1.0)
+  addLine(".", 1.0, true)
 end
 
 function boot:update(dt)

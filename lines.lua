@@ -5,12 +5,14 @@ local line = {
   written = "",
   textPos = 1,
   writing = true,
-  timers = {}
+  timers = {},
+  clear = false,
 }
 
 local lines = {}
 
-function addLine(text, timer)
+function addLine(text, timer, clear)
+  if clear == nil then clear = false end
   if timer == nil then timer = 0.0 end
 
   if #lines == 18 then
@@ -18,7 +20,7 @@ function addLine(text, timer)
   end
 
   newLine = copy(line, newLine)
-  newLine.text = text
+  newLine.text, newLine.clear = text, clear
 
   addTimer(timer, "end", newLine.timers)
 
@@ -35,6 +37,9 @@ function updateLines(dt)
 
       if newLine.textPos >= #newLine.text and updateTimer(dt, "end", newLine.timers) then
         newLine.writing = false
+        if newLine.clear then -- if the clear flag is set, clear the screen after the timer is finished
+          lines = {}
+        end
       else
         return
       end
