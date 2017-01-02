@@ -9,16 +9,19 @@ function boot:keypressed(key, code)
 end
 
 function boot:enter()
-  addLine("Apple II Pro")
-  -- pause between each line?
+  addLine("Apple II Pro", 0.2)
+  addLine("ProDOS 1.0", 0.2)
+  addLine("1-Jan-17", 0.2)
+  addLine("Sun 19:02", 0.2)
+  addLine(".", 1.0)
+  addLine(".", 1.0)
+  addLine(".", 1.0)
+  addLine(".", 1.0)
+  addLine(".", 1.0)
 end
 
-function boot:update()
-  --addLine("ProDOS 1.0")
-  --addLine("1-Jan-17")
-  --addLine("Sun 19:02")
-
-  updateLines()
+function boot:update(dt)
+  updateLines(dt)
 end
 
 function boot:draw()

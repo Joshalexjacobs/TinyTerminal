@@ -1,35 +1,39 @@
 --lines.lua
 
 local line = {
-  index = nil,
   text = nil,
   written = "",
   textPos = 1,
   writing = true,
+  timers = {}
 }
 
 local lines = {}
 
-function addLine(text)
+function addLine(text, timer)
+  if timer == nil then timer = 0.0 end
+
   if #lines == 18 then
     table.remove(lines, 1)
   end
 
   newLine = copy(line, newLine)
-  newLine.text, newLine.index = text, #lines + 1
+  newLine.text = text
+
+  addTimer(timer, "end", newLine.timers)
 
   --line = "> " .. line
   table.insert(lines, newLine)
 end
 
-function updateLines()
-  -- animate text display
+function updateLines(dt)
+  -- animate text to be displayed
   for _, newLine in ipairs(lines) do
     if newLine.writing then
       newLine.written = string.sub(newLine.text, 1, newLine.textPos)
       newLine.textPos = newLine.textPos + 1
 
-      if newLine.textPos == #newLine.text then
+      if newLine.textPos >= #newLine.text and updateTimer(dt, "end", newLine.timers) then
         newLine.writing = false
       else
         return

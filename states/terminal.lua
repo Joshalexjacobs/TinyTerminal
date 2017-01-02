@@ -12,8 +12,8 @@ function terminal:enter()
   addLine("Hello.")
 end
 
-function terminal:update()
-  updateLines()
+function terminal:update(dt)
+  updateLines(dt)
 end
 
 function terminal:draw()
