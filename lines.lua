@@ -11,9 +11,26 @@ local line = {
 
 local lines = {}
 
-function addLine(text, timer, clear)
-  if clear == nil then clear = false end
+local buffer = ""
+
+local cursor = {
+  x = 0,
+  y = 0,
+  w = 8,
+  h = 17.5,
+  isOn = true,
+  pos = 0, -- for moving left and right
+  timers = {}
+}
+
+function loadLines()
+  addTimer(0.4, "blink", cursor.timers)
+end
+
+function addLine(text, timer, clear, isBuffer)
   if timer == nil then timer = 0.0 end
+  if clear == nil then clear = false end
+  if isBuffer == nil then isBuffer = false end
 
   if #lines == 18 then
     table.remove(lines, 1)
@@ -24,8 +41,28 @@ function addLine(text, timer, clear)
 
   addTimer(timer, "end", newLine.timers)
 
-  --line = "> " .. line
+  if isBuffer then newLine.textPos = #newLine.text end
+
   table.insert(lines, newLine)
+end
+
+function updateBuffer(text)
+  buffer = text
+end
+
+function updateCursor(dt)
+  if updateTimer(dt, "blink", cursor.timers) then
+    if cursor.isOn then
+      cursor.isOn = false
+      resetTimer(0.4, "blink", cursor.timers)
+    else
+      cursor.isOn = true
+      resetTimer(0.4, "blink", cursor.timers)
+    end
+  end
+
+  cursor.x = (#buffer * 10) + 5
+  cursor.y = 16 + 17 * (#lines + 1) + 2
 end
 
 function updateLines(dt)
@@ -54,5 +91,11 @@ function drawLines()
     else
       love.graphics.printf(newLine.text, 5, 16 + 17 * i, love.graphics.getWidth(), "left")
     end
+  end
+
+  love.graphics.printf(buffer, 5, 16 + 17 * (#lines + 1), love.graphics.getWidth(), "left")
+
+  if cursor.isOn then
+    love.graphics.rectangle("fill", cursor.x, cursor.y, cursor.w, cursor.h)
   end
 end

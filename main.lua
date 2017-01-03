@@ -5,7 +5,8 @@ require "lib/maid64" -- used for correct scaling
 require "lib/timer"
 require "lines" -- lines.lua
 
-require "states/boot" -- switch to boot later
+require "states/boot"
+require "states/terminal"
 require "header"
 
 -- global copy function
@@ -32,7 +33,7 @@ function love.load(arg)
   headerLoad()
 
   Gamestate.registerEvents()
-  Gamestate.switch(boot) -- swtich to game screen
+  Gamestate.switch(terminal) -- swtich to game screen
 end
 
 function love.mousepressed(x, y, button)
