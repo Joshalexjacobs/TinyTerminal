@@ -32,8 +32,9 @@ function addLine(text, timer, clear, isBuffer)
   if clear == nil then clear = false end
   if isBuffer == nil then isBuffer = false end
 
-  if #lines == 18 then
-    table.remove(lines, 1)
+  while #text > 48 do -- cuts the string up into segments of 48 characters each
+    addLine(string.sub(text, 1, 48))
+    text = string.sub(text, 49, #text)
   end
 
   newLine = copy(line, newLine)
@@ -47,7 +48,7 @@ function addLine(text, timer, clear, isBuffer)
 end
 
 function updateBuffer(text)
-  buffer = text
+  buffer = "> " .. text
 end
 
 function updateCursor(dt)
@@ -62,10 +63,14 @@ function updateCursor(dt)
   end
 
   cursor.x = (#buffer * 10) + 5
-  cursor.y = 16 + 17 * (#lines + 1) + 2
+  cursor.y = 16 + 17 * (18 + 1) + 2
 end
 
 function updateLines(dt)
+  if #lines > 18 then
+    table.remove(lines, 1)
+  end
+
   -- animate text to be displayed
   for _, newLine in ipairs(lines) do
     if newLine.writing then
@@ -93,9 +98,11 @@ function drawLines()
     end
   end
 
-  love.graphics.printf(buffer, 5, 16 + 17 * (#lines + 1), love.graphics.getWidth(), "left")
+  love.graphics.printf(buffer, 5, 339, love.graphics.getWidth(), "left")
 
   if cursor.isOn then
     love.graphics.rectangle("fill", cursor.x, cursor.y, cursor.w, cursor.h)
   end
+
+  love.graphics.printf(#lines, 0, 0, love.graphics.getWidth(), "right")
 end
