@@ -4,6 +4,7 @@ Gamestate = require "lib/Gamestate"
 require "lib/maid64" -- used for correct scaling
 require "lib/timer"
 require "lines" -- lines.lua
+require "commands/commands" -- commands.lua
 
 require "states/boot"
 require "states/terminal"
@@ -50,7 +51,7 @@ function love.draw()
   headerDraw()
 end
 
---[[
+--[[ -- when maid64 is implemented in the near future
 function love.resize(w, h)
     -- this is used to resize the screen correctly
     maid64.resize(w, h)

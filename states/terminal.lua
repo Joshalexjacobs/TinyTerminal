@@ -2,13 +2,15 @@
 
 terminal = {}
 
-require "commands"
-
 local buffer = "" -- current user input
 local bufferLog = {} -- keeps a log of all user input
 local logPos = 1 -- bufferLog position
 local username = "$ "
 local inputEnabled = true
+
+local settings = {
+  printSpeed = 3
+}
 
 function terminal:keypressed(key, code)
   if key == 'escape' then -- quit on escape
@@ -44,7 +46,7 @@ end
 
 function terminal:enter()
   table.insert(bufferLog, "")
-  loadLines()
+  loadLines(settings)
   addLine("Terminal v1.2.7 Loaded")
   addLine(". . .")
   addLine("Type 'HELP' for a short list of commands.")

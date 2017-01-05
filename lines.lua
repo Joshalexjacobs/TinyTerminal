@@ -23,8 +23,13 @@ local cursor = {
   timers = {}
 }
 
-function loadLines()
+local printSpeed = 1 -- default value
+
+function loadLines(settings)
   addTimer(0.4, "blink", cursor.timers)
+
+  -- load settings
+  printSpeed = settings.printSpeed
 end
 
 function addLine(text, timer, clear, isBuffer)
@@ -75,7 +80,7 @@ function updateLines(dt)
   for _, newLine in ipairs(lines) do
     if newLine.writing then
       newLine.written = string.sub(newLine.text, 1, newLine.textPos)
-      newLine.textPos = newLine.textPos + 1
+      newLine.textPos = newLine.textPos + printSpeed
 
       if newLine.textPos >= #newLine.text and updateTimer(dt, "end", newLine.timers) then
         newLine.writing = false
