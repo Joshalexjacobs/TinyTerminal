@@ -16,6 +16,10 @@ local command = {
 -- once the commandsList.lua file is finished, all commands will be stored in the local variable below
 local commands = {}
 
+function getCommands()
+  commands = getCommandsList()
+end
+
 function newCommand(text)
   -- remove all leading spaces, " help"
   while string.find(text, ' ') == 1 do
@@ -27,9 +31,9 @@ function newCommand(text)
     text = string.sub(text, 1, #text - 1)
   end
 
-  if text:lower() == command.name then
-    for i = 1, #command.text do
-      addLine(command.text[i])
+  for i = 1, #commands do
+    if text:lower() == commands[i].name then
+      commands[i].call(commands[i], commands)
     end
   end
 end

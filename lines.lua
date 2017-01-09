@@ -52,6 +52,10 @@ function addLine(text, timer, clear, isBuffer)
   table.insert(lines, newLine)
 end
 
+function clearLines()
+  lines = {}
+end
+
 function updateBuffer(text)
   buffer = "> " .. text
 end

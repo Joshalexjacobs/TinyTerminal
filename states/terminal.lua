@@ -50,6 +50,8 @@ function terminal:enter()
   addLine("Terminal v1.2.7 Loaded")
   addLine(". . .")
   addLine("Type 'HELP' for a short list of commands.")
+
+  getCommands()
 end
 
 function terminal:update(dt)
