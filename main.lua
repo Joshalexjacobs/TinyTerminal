@@ -51,6 +51,9 @@ function love.draw()
   headerDraw()
 end
 
+-- see if there is a love.moveWindow() function
+-- that way the player can move the terminal around when clicking and dragging the header
+
 --[[ -- when maid64 is implemented in the near future
 function love.resize(w, h)
     -- this is used to resize the screen correctly

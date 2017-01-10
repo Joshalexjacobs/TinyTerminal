@@ -2,11 +2,16 @@
 
 terminal = {}
 
+require "adventures/adventures"
+
 local buffer = "" -- current user input
 local bufferLog = {} -- keeps a log of all user input
 local logPos = 1 -- bufferLog position
 local username = "$ "
 local inputEnabled = true
+
+local currentAdventure = nil -- current adventure selected
+local adventureActive = false -- is the current adventure active?
 
 local settings = {
   printSpeed = 3
@@ -47,6 +52,7 @@ end
 function terminal:enter()
   table.insert(bufferLog, "")
   loadLines(settings)
+  --loadAdventures()
   addLine("Terminal v1.2.7 Loaded")
   addLine(". . .")
   addLine("Type 'HELP' for a short list of commands.")
@@ -58,6 +64,10 @@ function terminal:update(dt)
   updateLines(dt)
   updateBuffer(buffer)
   updateCursor(dt)
+
+  if adventureActive then
+    -- call adventureUpdate
+  end
 end
 
 function terminal:draw()

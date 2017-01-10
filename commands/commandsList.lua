@@ -23,6 +23,22 @@ local commandsList = {
     call = function(command, commands)
       clearLines()
     end
+  },
+  {
+    name = "adventures",
+    text = {""},
+    desc = "ADVENTURES - Lists all available adventures.",
+    call = function(command, commands)
+      getAdventureNames()
+    end
+  },
+  {
+    name = "play",
+    text = {""},
+    desc = "PLAY $ADVENTURE - Launches an adventure to play.",
+    call = function(command, commands)
+      getAdventureNames()
+    end
   }
 }
 
