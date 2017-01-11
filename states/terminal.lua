@@ -10,7 +10,7 @@ local logPos = 1 -- bufferLog position
 local username = "$ "
 local inputEnabled = true
 
-local currentAdventure = nil -- current adventure selected
+local curAdventure = nil -- current adventure selected
 local adventureActive = false -- is the current adventure active?
 
 local settings = {
@@ -60,6 +60,13 @@ function terminal:enter()
   getCommands()
 end
 
+function setAdventure(name)
+  if name ~= nil then
+    curAdventure = name
+    adventureActive = true
+  end
+end
+
 function terminal:update(dt)
   updateLines(dt)
   updateBuffer(buffer)
@@ -67,6 +74,7 @@ function terminal:update(dt)
 
   if adventureActive then
     -- call adventureUpdate
+    curAdventure.update(curAdventure)
   end
 end
 

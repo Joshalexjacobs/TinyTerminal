@@ -1,8 +1,5 @@
 -- adventure.lua
--- this is a test adventure file
-
--- require all Adventure files
--- local dungeon = require "adventures/dungeon"
+-- keeps track of all adventures
 
 local adventures = {
   require "adventures/dungeon"
@@ -24,6 +21,8 @@ function getAdventure(name)
       return adventure
     end
   end
+
+  return nil
 end
 
 function adventureUpdate(dt)

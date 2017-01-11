@@ -2,17 +2,6 @@
 
 require "commands/commandsList"
 
--- a list of surface level commands and their outputs, currently just a HELP command
-local command = {
-  name = "help", -- aliases: ?
-  text = {"Current commands you have access to :",
-  "LAUNCH $(ADVENTURE) - Launches a new adventure.",
-  "ADVENTURES - Lists all possible adventures.",
-  "SETTINGS - Lists all settings/preferences.",
-  "CLEAR - Clears the screen.",
-  "To view this list again type 'HELP'."}
-}
-
 -- once the commandsList.lua file is finished, all commands will be stored in the local variable below
 local commands = {}
 
@@ -31,9 +20,26 @@ function newCommand(text)
     text = string.sub(text, 1, #text - 1)
   end
 
+  -- !!!
+  -- before i can write the code to parse the parameter, i neeed to figure out how to remove
+  -- all trailing spaces from input. that way i can find the single remaining space and divy up
+  -- each command. if there are 2 remaining spaces after all leading and trailing spaces are removed,
+  -- call an error for now. in the future it can be chopped up into 1 - X parameters.
+
+  local isFound = false
+
   for i = 1, #commands do
-    if text:lower() == commands[i].name then
-      commands[i].call(commands[i], commands)
+    if text:lower() == commands[i].name then -- if command name matches text
+      if commands[i].paramNum > 0 then
+        commands[i].call(commands[i], commands, "oof")
+      else
+        commands[i].call(commands[i], commands)
+      end
+      isFound = true
     end
+  end
+
+  if isFound ~= true then
+    addLine("Error: '" .. text .. "' is an unknown command.")
   end
 end
