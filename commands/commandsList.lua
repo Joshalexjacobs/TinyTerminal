@@ -42,8 +42,8 @@ local commandsList = {
       if name == nil then
         getAdventureNames() -- if name is nil, return list of adventures
       else
-        print(name)
-        --setAdventure(getAdventure(name)) -- else, set adventure
+        --addLine(name)
+        setAdventure(getAdventure(name)) -- else, set adventure
       end
     end
   },

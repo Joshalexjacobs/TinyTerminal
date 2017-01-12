@@ -2,12 +2,10 @@
 -- keeps track of all adventures
 
 local adventures = {
-  require "adventures/dungeon"
+  require "adventures/dungeon",
+  require "adventures/train",
+  require "adventures/dday"
 }
-
-function loadAdventures()
-
-end
 
 function getAdventureNames()
   for _, adventure in ipairs(adventures) do
@@ -17,14 +15,10 @@ end
 
 function getAdventure(name)
   for _, adventure in ipairs(adventures) do
-    if name == adventure.name then
+    if name:lower() == adventure.name:lower() then
       return adventure
     end
   end
 
   return nil
-end
-
-function adventureUpdate(dt)
-  --
 end

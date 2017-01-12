@@ -72,8 +72,7 @@ function terminal:update(dt)
   updateBuffer(buffer)
   updateCursor(dt)
 
-  if adventureActive then
-    -- call adventureUpdate
+  if adventureActive then -- call adventureUpdate
     curAdventure.update(curAdventure)
   end
 end

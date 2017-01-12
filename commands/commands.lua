@@ -15,31 +15,42 @@ function newCommand(text)
     text = string.sub(text, 2, #text)
   end
 
-  -- removes 1 trailing space, "help "
-  if string.find(text, ' ') == #text then
-    text = string.sub(text, 1, #text - 1)
+  -- removes all trailing spaces, "help "
+  for i = 1, #text do
+    if string.find(text, ' ', #text) == #text then
+      text = string.sub(text, 1, #text - 1)
+    end
   end
 
-  -- !!!
-  -- before i can write the code to parse the parameter, i neeed to figure out how to remove
-  -- all trailing spaces from input. that way i can find the single remaining space and divy up
-  -- each command. if there are 2 remaining spaces after all leading and trailing spaces are removed,
-  -- call an error for now. in the future it can be chopped up into 1 - X parameters.
+  -- create command/parameter array
+  local parsedText = {}
+
+  -- find any spaces in-between commands
+  while string.find(text, ' ', 1) ~= nil do -- while there are remaining spaces, add item to parsedText
+    local tempText = string.sub(text, 1, string.find(text, ' ', 1) - 1)
+    table.insert(parsedText, tempText)
+    text = string.sub(text, string.find(text, ' ', 1) + 1, #text)
+  end
+
+  if #text > 0 then -- add remaining text to parsedText
+    table.insert(parsedText, text)
+  end
 
   local isFound = false
 
   for i = 1, #commands do
-    if text:lower() == commands[i].name then -- if command name matches text
-      if commands[i].paramNum > 0 then
-        commands[i].call(commands[i], commands, "oof")
-      else
+    if parsedText[1]:lower() == commands[i].name then -- if command name matches text
+      if commands[i].paramNum == 1 then -- 1 possible parameter
+        commands[i].call(commands[i], commands, parsedText[2])
+      else -- no parameters
         commands[i].call(commands[i], commands)
       end
+
       isFound = true
     end
   end
 
-  if isFound ~= true then
-    addLine("Error: '" .. text .. "' is an unknown command.")
+  if isFound == false then
+    addLine("Error: '" .. parsedText[1] .. "' is an unknown command.")
   end
 end
