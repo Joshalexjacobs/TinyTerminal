@@ -24,11 +24,12 @@ local cursor = {
 }
 
 local printSpeed = 1 -- default value
+local lineMax = 18 -- default value
 
 function loadLines(settings)
   addTimer(0.4, "blink", cursor.timers)
 
-  -- load settings
+  -- load terminal settings
   printSpeed = settings.printSpeed
 end
 
@@ -52,6 +53,10 @@ function addLine(text, timer, clear, isBuffer)
   table.insert(lines, newLine)
 end
 
+function setLineMax(x)
+  lineMax = x
+end
+
 function clearLines()
   lines = {}
 end
@@ -72,11 +77,11 @@ function updateCursor(dt)
   end
 
   cursor.x = (#buffer * 10) + 5
-  cursor.y = 16 + 17 * (18 + 1) + 2
+  cursor.y = 16 + 17 * (lineMax + 1) + 2
 end
 
 function updateLines(dt)
-  if #lines > 18 then
+  if #lines > lineMax then
     table.remove(lines, 1)
   end
 
@@ -89,7 +94,7 @@ function updateLines(dt)
       if newLine.textPos >= #newLine.text and updateTimer(dt, "end", newLine.timers) then
         newLine.writing = false
         if newLine.clear then -- if the clear flag is set, clear the screen after the timer is finished
-          lines = {}
+          clearLines()
         end
       else
         return

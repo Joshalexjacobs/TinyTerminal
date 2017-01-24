@@ -21,11 +21,15 @@ function terminal:keypressed(key, code)
   if key == 'escape' then -- quit on escape
     love.event.quit()
   elseif key == "return" then
-    addLine(username .. buffer, 0.0, false, true)
-    newCommand(buffer)
-    table.insert(bufferLog, 2, buffer) -- the first position of bufferLog is always empty, so we push to the second position
-    buffer = ""
-    logPos = 1
+    if adventureActive then
+      -- log input to the current adventure
+    else
+      addLine(username .. buffer, 0.0, false, true)
+      newCommand(buffer)
+      table.insert(bufferLog, 2, buffer) -- the first position of bufferLog is always empty, so we push to the second position
+      buffer = ""
+      logPos = 1
+    end
   elseif key == "backspace" then
     buffer = string.sub(buffer, 1, #buffer - 1)
   elseif key == "up" then
@@ -52,9 +56,8 @@ end
 function terminal:enter()
   table.insert(bufferLog, "")
   loadLines(settings)
-  --loadAdventures()
-  addLine("Terminal v1.2.7 Loaded")
-  addLine(". . .")
+
+  addLine("QK-Comp OS v1.34", 0.2)
   addLine("Type 'HELP' for a short list of commands.")
 
   getCommands()
@@ -64,6 +67,7 @@ function setAdventure(name)
   if name ~= nil then
     curAdventure = name
     adventureActive = true
+    curAdventure.enter(curAdventure)
   end
 end
 
@@ -79,4 +83,8 @@ end
 
 function terminal:draw()
   drawLines()
+
+  if adventureActive then -- call adventureUpdate
+    curAdventure.draw(curAdventure)
+  end
 end

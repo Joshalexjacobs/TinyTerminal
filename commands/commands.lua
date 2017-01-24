@@ -39,6 +39,8 @@ function newCommand(text)
   local isFound = false
 
   for i = 1, #commands do
+    if parsedText[1] == nil then break end
+
     if parsedText[1]:lower() == commands[i].name then -- if command name matches text
       if commands[i].paramNum == 1 then -- 1 possible parameter
         commands[i].call(commands[i], commands, parsedText[2])
@@ -50,7 +52,7 @@ function newCommand(text)
     end
   end
 
-  if isFound == false then
+  if isFound == false and parsedText[1] ~= nil then
     addLine("Error: '" .. parsedText[1] .. "' is an unknown command.")
   end
 end

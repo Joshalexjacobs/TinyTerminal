@@ -2,9 +2,7 @@
 -- keeps track of all adventures
 
 local adventures = {
-  require "adventures/dungeon",
-  require "adventures/train",
-  require "adventures/dday"
+  require "adventures/room/room"
 }
 
 function getAdventureNames()

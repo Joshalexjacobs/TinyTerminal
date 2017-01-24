@@ -35,6 +35,7 @@ function love.load(arg)
 
   Gamestate.registerEvents()
   Gamestate.switch(terminal) -- swtich to game screen
+  --Gamestate.switch(boot)
 end
 
 function love.mousepressed(x, y, button)
