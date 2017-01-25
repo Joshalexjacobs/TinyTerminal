@@ -29,6 +29,7 @@ function love.load(arg)
   love.window.setMode(256 * 2, 180 * 2, {resizable=false, borderless=true, vsync=true, msaa=0}) -- set the window mode
 
   terminalFont = love.graphics.newFont("lib/Monaco.dfont", 16)
+  bigTerminalFont = love.graphics.newFont("lib/Monaco.dfont", 20)
   love.graphics.setFont(terminalFont)
 
   headerLoad()

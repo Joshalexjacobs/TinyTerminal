@@ -34,6 +34,22 @@ function resetTimer(startTime, name, timerList)
   timerList[findTimer(name, timerList)].time = startTime
 end
 
+function isTimerDone(name, timerList)
+  if #timerList <= 0 then
+    return false
+  end -- if timerList does not contain any timers
+
+  index = findTimer(name, timerList)
+
+  if index == 0 then return false end
+
+  if timerList[index].time <= 0 then
+    return true
+  elseif timerList[index].time > 0 then
+    return false
+  end
+end
+
 function updateTimer(dt, name, timerList) -- update all existing timers
   if #timerList <= 0 then
     --print("no timers found")

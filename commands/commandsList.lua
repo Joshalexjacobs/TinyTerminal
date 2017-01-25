@@ -42,7 +42,6 @@ local commandsList = {
       if name == nil then
         getAdventureNames() -- if name is nil, return list of adventures
       else
-        --addLine(name)
         setAdventure(getAdventure(name)) -- else, set adventure
       end
     end
@@ -55,7 +54,7 @@ local commandsList = {
     call = function(command, commands)
       love.event.quit()
     end
-  }
+  },
 }
 
 function getCommandsList()

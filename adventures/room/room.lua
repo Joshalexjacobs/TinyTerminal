@@ -15,17 +15,15 @@ local adventure = {
 }
 
 adventure.enter = function(adventure)
+  setLineMax(3)
+
   addLine("Loading Adventure: " .. adventure.name .. ". . .", 1.0)
   addLine(adventure.name .. " Loaded!", 2.0, true)
-  -- temporarily change lineMax in lines.lua -- maybe create a seperate function for this
 
-  --setLineMax(3)
-  --addLine("This is a test 1", 0.5)
-  --addLine("This is a test 2", 0.5)
-  --addLine("This is a test 3", 0.5)
-  --addLine("This is a test 4", 0.5)
-  --addLine("This is a test 5", 0.5)
-  --addLine("This is a test 6", 0.5)
+  addLine("Welcome Employee #" .. tostring(love.math.random(10, 100) * 12345), 2.0)
+  addLine("Department - 'Shipping and Receiving'", 0.5)
+  addLine("Facility   - #339", 0.5)
+  addLine("Position   - 'Inventory Technician'")
 end
 
 adventure.update = function(adventure)
@@ -33,8 +31,14 @@ adventure.update = function(adventure)
 end
 
 adventure.draw = function(adventure)
-  --love.graphics.rectangle("line", 25, 25, 100, 100)
-  --love.graphics.printf("room", 30, 30, 100)
+  love.graphics.setColor({255, 255, 255, 100})
+  love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
+
+  love.graphics.setColor({255, 255, 255, 255})
+    love.graphics.setFont(bigTerminalFont)
+  love.graphics.printf("BOX FACTORY", 0, 100, love.graphics.getWidth(), "center")
+
+  love.graphics.setFont(terminalFont)
 end
 
 return adventure

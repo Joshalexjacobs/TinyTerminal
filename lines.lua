@@ -9,8 +9,8 @@ local line = {
   clear = false,
 }
 
-local lines = {}
-
+local lines = {} -- all of our lines that we're able to draw within the lineMax
+local overflow = {} -- all the lines in queue to be brawn
 local buffer = ""
 
 local cursor = {
@@ -50,15 +50,27 @@ function addLine(text, timer, clear, isBuffer)
 
   if isBuffer then newLine.textPos = #newLine.text end
 
-  table.insert(lines, newLine)
+  if #lines == lineMax then
+    table.insert(overflow, newLine)
+  else
+    table.insert(lines, newLine)
+  end
 end
 
 function setLineMax(x)
+  lines = {lines[1], lines[2], lines[3]}
   lineMax = x
 end
 
 function clearLines()
   lines = {}
+
+  if #overflow > 0 then
+    for i = 1, lineMax do
+      table.insert(lines, overflow[1])
+      table.remove(overflow, 1)
+    end
+  end
 end
 
 function updateBuffer(text)
@@ -77,13 +89,20 @@ function updateCursor(dt)
   end
 
   cursor.x = (#buffer * 10) + 5
-  cursor.y = 16 + 17 * (lineMax + 1) + 2
+  cursor.y = 16 + 17 * (18 + 1) + 2
 end
 
 function updateLines(dt)
-  if #lines > lineMax then
+  -- still testing the overflow, but it seems to be working so far
+  if #overflow > 0 and #lines > 0 and isTimerDone("end", lines[#lines].timers) then
     table.remove(lines, 1)
+    table.insert(lines, overflow[1])
+    table.remove(overflow, 1)
   end
+
+  --if #lines > lineMax then
+    --table.remove(lines, 1)
+  --end
 
   -- animate text to be displayed
   for _, newLine in ipairs(lines) do
