@@ -1,6 +1,6 @@
 --lines.lua
 
-local line = {
+local line = { -- a line object
   text = nil,
   written = "",
   textPos = 1,
@@ -10,16 +10,16 @@ local line = {
 }
 
 local lines = {} -- all of our lines that we're able to draw within the lineMax
-local overflow = {} -- all the lines in queue to be brawn
+local overflow = {} -- all the lines in queue to be drawn
 local buffer = ""
 
-local cursor = {
+local cursor = { -- our blinking cursor
   x = 0,
   y = 0,
   w = 8,
   h = 17.5,
   isOn = true,
-  pos = 0, -- for moving left and right
+  pos = 0, -- for moving left and right (not in use)
   timers = {}
 }
 
@@ -27,44 +27,59 @@ local printSpeed = 1 -- default value
 local lineMax = 18 -- default value
 
 function loadLines(settings)
-  addTimer(0.4, "blink", cursor.timers)
+  addTimer(0.4, "blink", cursor.timers) -- cursor blink timer
 
   -- load terminal settings
   printSpeed = settings.printSpeed
 end
 
 function addLine(text, timer, clear, isBuffer)
-  if timer == nil then timer = 0.0 end
-  if clear == nil then clear = false end
-  if isBuffer == nil then isBuffer = false end
+  if timer == nil then timer = 0.0 end -- if theres a timer after draw
+  if clear == nil then clear = false end -- clear screen after drawing/timer?
+  if isBuffer == nil then isBuffer = false end -- if text is user input
 
   while #text > 48 do -- cuts the string up into segments of 48 characters each
     addLine(string.sub(text, 1, 48))
     text = string.sub(text, 49, #text)
   end
 
-  newLine = copy(line, newLine)
+  newLine = copy(line, newLine) -- copy base line object
   newLine.text, newLine.clear = text, clear
 
   addTimer(timer, "end", newLine.timers)
 
-  if isBuffer then newLine.textPos = #newLine.text end
+  if isBuffer then newLine.textPos = #newLine.text end -- don't write user input, display it instantly
 
-  if #lines == lineMax then
+  if #lines == lineMax then -- if lines is maxed, send text to overflow
     table.insert(overflow, newLine)
   else
     table.insert(lines, newLine)
   end
 end
 
-function setLineMax(x)
-  lines = {lines[1], lines[2], lines[3]}
+function setLineMax(x) -- changes the line max from 18 to x
+  local tempLines = {}
+
+  for i = 0, x - 1 do -- keep the last x lines
+    if #lines - i <= 0 then break end
+    table.insert(tempLines, 1, lines[#lines - i])
+  end
+
+  lines = tempLines
   lineMax = x
 end
 
-function clearLines()
+function clearLines() -- clears all lines
+  -- if there are any unfinished timers in lines, add them to the start of overflow
+  for _, newLine in ipairs(lines) do
+    if isTimerDone("end", newLine.timers) == false then
+      table.insert(overflow, 1, newLine)
+    end
+  end
+
   lines = {}
 
+  -- insert as many lines from overflow as possible
   if #overflow > 0 then
     for i = 1, lineMax do
       table.insert(lines, overflow[1])
@@ -77,7 +92,7 @@ function updateBuffer(text)
   buffer = "> " .. text
 end
 
-function updateCursor(dt)
+function updateCursor(dt) -- blink and move our cursor depending on buffer length
   if updateTimer(dt, "blink", cursor.timers) then
     if cursor.isOn then
       cursor.isOn = false
@@ -89,7 +104,8 @@ function updateCursor(dt)
   end
 
   cursor.x = (#buffer * 10) + 5
-  cursor.y = 16 + 17 * (18 + 1) + 2
+  --cursor.y = 16 + 17 * (18 + 1) + 2
+  cursor.y = 341
 end
 
 function updateLines(dt)
@@ -99,10 +115,6 @@ function updateLines(dt)
     table.insert(lines, overflow[1])
     table.remove(overflow, 1)
   end
-
-  --if #lines > lineMax then
-    --table.remove(lines, 1)
-  --end
 
   -- animate text to be displayed
   for _, newLine in ipairs(lines) do

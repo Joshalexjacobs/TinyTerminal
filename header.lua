@@ -1,4 +1,5 @@
---header.lua
+-- header.lua
+-- this is the header you see above the terminal at all times
 
 local xButton = {
   x = -5,
@@ -15,7 +16,7 @@ end
 function headerClicked(x, y)
   if x > xButton.x and x < xButton.x + xButton.w and y > xButton.y and y < xButton.y + xButton.h then
     love.event.quit()
-    -- in the future, open a dialog asking "Are you sure you want to quit?"
+    -- in the future, open a dialog asking "Are you sure? Y/N"
   end
 end
 
@@ -51,5 +52,5 @@ function headerDraw()
   love.graphics.setColor({255, 255, 255, 255})
 
   -- header Title
-  love.graphics.printf("Terminal", 0, 5, love.graphics.getWidth(), "center")
+  love.graphics.printf("Terminal.lua", 0, 5, love.graphics.getWidth(), "center")
 end

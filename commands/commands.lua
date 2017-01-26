@@ -2,14 +2,13 @@
 
 require "commands/commandsList"
 
--- once the commandsList.lua file is finished, all commands will be stored in the local variable below
 local commands = {}
 
-function getCommands()
+function getCommands() -- retrieve all of our comands
   commands = getCommandsList()
 end
 
-function newCommand(text)
+function cleanInput(text) -- deletes any unneeded spaces
   -- remove all leading spaces, " help"
   while string.find(text, ' ') == 1 do
     text = string.sub(text, 2, #text)
@@ -21,6 +20,12 @@ function newCommand(text)
       text = string.sub(text, 1, #text - 1)
     end
   end
+
+  return text
+end
+
+function newCommand(text)
+  text = cleanInput(text) -- clean up the text if needed
 
   -- create command/parameter array
   local parsedText = {}
@@ -36,7 +41,7 @@ function newCommand(text)
     table.insert(parsedText, text)
   end
 
-  local isFound = false
+  local isFound = false -- if the command is found
 
   for i = 1, #commands do
     if parsedText[1] == nil then break end
@@ -52,7 +57,7 @@ function newCommand(text)
     end
   end
 
-  if isFound == false and parsedText[1] ~= nil then
+  if isFound == false and parsedText[1] ~= nil then -- if not, return an error
     addLine("Error: '" .. parsedText[1] .. "' is an unknown command.")
   end
 end

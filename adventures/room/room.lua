@@ -6,39 +6,50 @@
 -- all the label's info into the terminal. Don't mess up
 
 local adventure = {
-  name = "Room",
-  state = "enter", -- determines which function to call
-  enter = nil,
-  update = nil,
-  draw = nil,
-  timers = {}
+  name = "Room", -- name of our adventure
+  state = "enter", -- determines which function to call (unused rn)
+  enter = nil, -- our load function
+  update = nil, -- update function
+  draw = nil, -- draw function
+  input = nil, -- input function
+  timers = {} -- adventure timers
 }
 
 adventure.enter = function(adventure)
-  setLineMax(3)
+  addTimer(8.0, "pause", adventure.timers) -- add a timer that blocks user input
+  setLineMax(3) -- set our line max to 3, make room for images/graphics
 
+  -- set up scenario:
   addLine("Loading Adventure: " .. adventure.name .. ". . .", 1.0)
   addLine(adventure.name .. " Loaded!", 2.0, true)
 
   addLine("Welcome Employee #" .. tostring(love.math.random(10, 100) * 12345), 2.0)
   addLine("Department - 'Shipping and Receiving'", 0.5)
   addLine("Facility   - #339", 0.5)
-  addLine("Position   - 'Inventory Technician'")
+  addLine("Position   - 'Inventory Technician'", 0.5)
 end
 
-adventure.update = function(adventure)
-
+adventure.update = function(dt, adventure)
+  updateTimer(dt, "pause", adventure.timers)
 end
 
 adventure.draw = function(adventure)
+  -- draws a box that shows our draw range
   love.graphics.setColor({255, 255, 255, 100})
   love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
 
+  -- incase we want to draw text outside of the terminal log
   love.graphics.setColor({255, 255, 255, 255})
-    love.graphics.setFont(bigTerminalFont)
+  love.graphics.setFont(bigTerminalFont)
   love.graphics.printf("BOX FACTORY", 0, 100, love.graphics.getWidth(), "center")
 
   love.graphics.setFont(terminalFont)
+end
+
+adventure.input = function(adventure, input)
+  if isTimerDone("pause", adventure.timers) then
+    addLine(input)
+  end
 end
 
 return adventure

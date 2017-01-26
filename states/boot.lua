@@ -1,4 +1,5 @@
 --boot.lua
+-- a simple boot screen, currently not a priority
 
 boot = {}
 

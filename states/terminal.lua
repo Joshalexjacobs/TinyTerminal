@@ -1,19 +1,38 @@
 --terminal.lua
 
+-- add to hacknplan:
+-- fullscreen
+-- windowed mode (multiple resolutions)
+-- drag window
+-- teaser trailer (twitter/tumblr/facebook/instagram to be released late 2017)
+-- more basic commands/parameters in terminal
+-- sound effects (typing/error/accepted/voice?)
+-- boot cutscene/intro
+-- autosaving during adventures/at terminal
+-- adventures:
+-- box factory (interactive)
+-- dday (action)
+-- train zombie game (horror/puzzle)
+-- escape the room w/ timer/bomb (interactive/puzzle)
+-- rogue ai (inbetween adventures?)
+-- dungeon crawler (first person/rpg)
+-- are you sure you want to quit? dialog
+
 terminal = {}
 
 require "adventures/adventures"
 
 local buffer = "" -- current user input
 local bufferLog = {} -- keeps a log of all user input
+local maxBufferSize = 48 -- ensures user input doesn't trail off screen
 local logPos = 1 -- bufferLog position
-local username = "$ "
-local inputEnabled = true
+local username = "$ " -- this goes in front of the user's input
+local inputEnabled = true -- if we want to disable input, set to false
 
 local curAdventure = nil -- current adventure selected
 local adventureActive = false -- is the current adventure active?
 
-local settings = {
+local settings = { -- all settings will be stored in here
   printSpeed = 3
 }
 
@@ -21,8 +40,11 @@ function terminal:keypressed(key, code)
   if key == 'escape' then -- quit on escape
     love.event.quit()
   elseif key == "return" then
-    if adventureActive then
-      -- log input to the current adventure
+    if adventureActive then -- log input to the current adventure
+      curAdventure.input(curAdventure, cleanInput(buffer))
+      table.insert(bufferLog, 2, buffer) -- reset buffer
+      buffer = ""
+      logPos = 1
     else
       addLine(username .. buffer, 0.0, false, true)
       newCommand(buffer)
@@ -30,15 +52,15 @@ function terminal:keypressed(key, code)
       buffer = ""
       logPos = 1
     end
-  elseif key == "backspace" then
+  elseif key == "backspace" then -- delete from buffer
     buffer = string.sub(buffer, 1, #buffer - 1)
-  elseif key == "up" then
+  elseif key == "up" then -- get previous input
     logPos = logPos + 1
     if logPos > #bufferLog then
       logPos = 1
     end
     buffer = bufferLog[logPos]
-  elseif key == "down" then
+  elseif key == "down" then -- get older input
     logPos = logPos - 1
     if logPos <= 0 then
       logPos = 1
@@ -47,23 +69,23 @@ function terminal:keypressed(key, code)
   end
 end
 
-function terminal:textinput(t)
-  if inputEnabled then
+function terminal:textinput(t) -- add user keystrokes to existing input
+  if inputEnabled and #buffer < maxBufferSize then
     buffer = buffer .. t
   end
 end
 
 function terminal:enter()
-  table.insert(bufferLog, "")
-  loadLines(settings)
+  table.insert(bufferLog, "") -- bufferLog[1] will always be an empty space
+  loadLines(settings) -- send setting preferences to lines.lua
 
   addLine("QK-Comp OS v1.34", 0.2)
   addLine("Type 'HELP' for a short list of commands.")
 
-  getCommands()
+  getCommands() -- load all terminal commands
 end
 
-function setAdventure(name)
+function setAdventure(name) -- set a new adventure
   if name ~= nil then
     curAdventure = name
     adventureActive = true
@@ -76,15 +98,15 @@ function terminal:update(dt)
   updateBuffer(buffer)
   updateCursor(dt)
 
-  if adventureActive then -- call adventureUpdate
-    curAdventure.update(curAdventure)
+  if adventureActive then -- call adventure update
+    curAdventure.update(dt, curAdventure)
   end
 end
 
 function terminal:draw()
   drawLines()
 
-  if adventureActive then -- call adventureUpdate
+  if adventureActive then -- call adventure draw
     curAdventure.draw(curAdventure)
   end
 end

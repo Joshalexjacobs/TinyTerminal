@@ -2,16 +2,16 @@
 -- keeps track of all adventures
 
 local adventures = {
-  require "adventures/room/room"
+  require "adventures/room/room" -- our adventure files
 }
 
-function getAdventureNames()
+function getAdventureNames() -- returns a list of adentures
   for _, adventure in ipairs(adventures) do
     addLine("> " .. adventure.name)
   end
 end
 
-function getAdventure(name)
+function getAdventure(name) -- returns adventure object to be played
   for _, adventure in ipairs(adventures) do
     if name:lower() == adventure.name:lower() then
       return adventure
