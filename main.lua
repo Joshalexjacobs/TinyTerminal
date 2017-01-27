@@ -28,9 +28,12 @@ function love.load(arg)
   --love.window.setMode(480, 432, {resizable=true, vsync=true, minwidth=160, minheight=144, msaa=0}) -- set the window mode
   love.window.setMode(256 * 2, 180 * 2, {resizable=false, borderless=true, vsync=true, msaa=0}) -- set the window mode
 
+  detailFont = love.graphics.newFont("lib/Monaco.dfont", 12)
   terminalFont = love.graphics.newFont("lib/Monaco.dfont", 16)
   bigTerminalFont = love.graphics.newFont("lib/Monaco.dfont", 20)
   love.graphics.setFont(terminalFont)
+
+  blockFont = love.graphics.newFont("lib/BLOKKRegular.ttf", 10)
 
   headerLoad()
 
