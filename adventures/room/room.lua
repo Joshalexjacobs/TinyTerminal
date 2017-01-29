@@ -43,6 +43,7 @@ adventure.draw = function(adventure)
 
   -- employee profile
   --love.graphics.rectangle("line", 50, 150, 410, 150)
+  
   love.graphics.rectangle("line", 100, 150, 310, 140)
   love.graphics.printf("Employee #259245", 0, 150, love.graphics.getWidth(), "center")
   love.graphics.rectangle("line", 120, 175, 90, 90)

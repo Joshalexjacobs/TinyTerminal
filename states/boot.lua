@@ -26,6 +26,7 @@ function boot:enter()
   addLine(".", 1.0)
   addLine(".", 1.0)
   addLine("OK", 3.0, true)
+  addLine("ModuSound Card Active", 1.0)
   --addLine("Loading from C drive")
   --addLine(".", 1.0, true)
 end
