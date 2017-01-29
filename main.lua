@@ -3,6 +3,7 @@
 Gamestate = require "lib/Gamestate"
 require "lib/maid64" -- used for correct scaling
 require "lib/timer"
+require "lib/anim8" -- anim8
 require "lines" -- lines.lua
 require "commands/commands" -- commands.lua
 

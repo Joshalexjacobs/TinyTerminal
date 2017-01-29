@@ -7,6 +7,7 @@ local line = { -- a line object
   writing = true,
   timers = {},
   clear = false,
+  pause = false
 }
 
 local lines = {} -- all of our lines that we're able to draw within the lineMax
@@ -15,7 +16,7 @@ local buffer = ""
 
 local cursor = { -- our blinking cursor
   x = 0,
-  y = 0,
+  y = 341,
   w = 8,
   h = 17.5,
   isOn = true,
@@ -25,6 +26,7 @@ local cursor = { -- our blinking cursor
 
 local printSpeed = 1 -- default value
 local lineMax = 18 -- default value
+local paused = false
 
 function loadLines(settings)
   addTimer(0.4, "blink", cursor.timers) -- cursor blink timer
@@ -44,7 +46,7 @@ function addLine(text, timer, clear, isBuffer)
   end
 
   newLine = copy(line, newLine) -- copy base line object
-  newLine.text, newLine.clear = text, clear
+  newLine.text, newLine.clear, newLine.pause = text, clear, paused
 
   addTimer(timer, "end", newLine.timers)
 
@@ -67,6 +69,18 @@ function setLineMax(x) -- changes the line max from 18 to x
 
   lines = tempLines
   lineMax = x
+end
+
+function pauseLines()
+  paused = true
+end
+
+function unpauseLines()
+  paused = false
+
+  for _, newLine in ipairs(lines) do
+    if newLine.pause == true then newLine.pause = false end
+  end
 end
 
 function clearLines() -- clears all lines
@@ -104,12 +118,9 @@ function updateCursor(dt) -- blink and move our cursor depending on buffer lengt
   end
 
   cursor.x = (#buffer * 10) + 5
-  --cursor.y = 16 + 17 * (18 + 1) + 2
-  cursor.y = 341
 end
 
 function updateLines(dt)
-  -- still testing the overflow, but it seems to be working so far
   if #overflow > 0 and #lines > 0 and isTimerDone("end", lines[#lines].timers) then
     table.remove(lines, 1)
     table.insert(lines, overflow[1])
@@ -118,7 +129,7 @@ function updateLines(dt)
 
   -- animate text to be displayed
   for _, newLine in ipairs(lines) do
-    if newLine.writing then
+    if newLine.writing and newLine.pause == false then
       newLine.written = string.sub(newLine.text, 1, newLine.textPos)
       newLine.textPos = newLine.textPos + printSpeed
 

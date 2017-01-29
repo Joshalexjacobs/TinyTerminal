@@ -1,23 +1,5 @@
 --terminal.lua
 
--- add to hacknplan:
--- fullscreen
--- windowed mode (multiple resolutions)
--- drag window
--- teaser trailer (twitter/tumblr/facebook/instagram to be released late 2017)
--- more basic commands/parameters in terminal
--- sound effects (typing/error/accepted/voice?)
--- boot cutscene/intro
--- autosaving during adventures/at terminal
--- adventures:
--- box factory (interactive)
--- dday (action)
--- train zombie game (horror/puzzle)
--- escape the room w/ timer/bomb (interactive/puzzle)
--- rogue ai (inbetween adventures?)
--- dungeon crawler (first person/rpg)
--- are you sure you want to quit? dialog
-
 terminal = {}
 
 require "adventures/adventures"
@@ -90,6 +72,7 @@ function setAdventure(name) -- set a new adventure
     curAdventure = name
     adventureActive = true
     curAdventure.enter(curAdventure)
+    -- clear bufferLog, set bufferPosition, add "" to bufferlog
   end
 end
 
