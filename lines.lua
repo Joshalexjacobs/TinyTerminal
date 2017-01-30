@@ -6,6 +6,7 @@ local line = { -- a line object
   textPos = 1,
   writing = true,
   timers = {},
+  trigger = nil,
   clear = false,
   pause = false
 }
@@ -35,10 +36,12 @@ function loadLines(settings)
   printSpeed = settings.printSpeed
 end
 
-function addLine(text, timer, clear, isBuffer)
+function addLine(text, timer, clear, isBuffer, setTrigger)
   if timer == nil then timer = 0.0 end -- if theres a timer after draw
   if clear == nil then clear = false end -- clear screen after drawing/timer?
   if isBuffer == nil then isBuffer = false end -- if text is user input
+  if setTrigger == nil then setTrigger = {false} end -- if the line is a trigger
+  -- (setTrigger is an array [1] is a bool, [2] is a string)
 
   while #text > 48 do -- cuts the string up into segments of 48 characters each
     addLine(string.sub(text, 1, 48))
@@ -47,6 +50,8 @@ function addLine(text, timer, clear, isBuffer)
 
   newLine = copy(line, newLine) -- copy base line object
   newLine.text, newLine.clear, newLine.pause = text, clear, paused
+
+  if setTrigger[1] then newLine.trigger = setTrigger[2] end
 
   addTimer(timer, "end", newLine.timers)
 
@@ -78,8 +83,12 @@ end
 function unpauseLines()
   paused = false
 
-  for _, newLine in ipairs(lines) do
+  for _, newLine in ipairs(lines) do -- unpause all paused lines
     if newLine.pause == true then newLine.pause = false end
+  end
+
+  if #overflow > 0 then
+    overflow[1].pause = false
   end
 end
 
@@ -121,7 +130,8 @@ function updateCursor(dt) -- blink and move our cursor depending on buffer lengt
 end
 
 function updateLines(dt)
-  if #overflow > 0 and #lines > 0 and isTimerDone("end", lines[#lines].timers) then
+
+  if #overflow > 0 and #lines > 0 and isTimerDone("end", lines[#lines].timers) and overflow[1].pause == false then
     table.remove(lines, 1)
     table.insert(lines, overflow[1])
     table.remove(overflow, 1)
@@ -129,20 +139,31 @@ function updateLines(dt)
 
   -- animate text to be displayed
   for _, newLine in ipairs(lines) do
+
     if newLine.writing and newLine.pause == false then
       newLine.written = string.sub(newLine.text, 1, newLine.textPos)
       newLine.textPos = newLine.textPos + printSpeed
 
       if newLine.textPos >= #newLine.text and updateTimer(dt, "end", newLine.timers) then
         newLine.writing = false
+
         if newLine.clear then -- if the clear flag is set, clear the screen after the timer is finished
           clearLines()
         end
+
+        if newLine.trigger ~= nil then
+          advAdventure(newLine.trigger)
+          newLine.trigger = nil
+        end
+
       else
         return
       end
+
     end
+
   end
+
 end
 
 function drawLines()

@@ -76,6 +76,10 @@ function setAdventure(name) -- set a new adventure
   end
 end
 
+function advAdventure(newState) -- advance adventure by changing its current state
+  curAdventure.changeState(newLine.trigger)
+end
+
 function terminal:update(dt)
   updateLines(dt)
   updateBuffer(buffer)
