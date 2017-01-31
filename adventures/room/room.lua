@@ -17,6 +17,8 @@ local assets = { -- a list of paths for our assets
   employeeID = "adventures/room/img/employeeID.png",
 }
 
+local boxTally = 0
+
 adventure.enter = function(adventure)
   addTimer(3.0, "pause", adventure.timers) -- add a timer that blocks user input
   setLineMax(3) -- set our line max to 3, make room for images/graphics
@@ -33,14 +35,20 @@ adventure.enter = function(adventure)
   addLine("1. Delivery ID Number")
   addLine("2. Corporation")
   addLine("3. Weight (lbs)")
-  addLine("", 0.0, true, false, {true, "box1"}) -- if you need to clear the screen on user input
+  addLine("", 0.0, true, false, {true, "boxGen"}) -- if you need to clear the screen on user input
 
   -- load images:
   assets.employeeID = love.graphics.newImage(assets.employeeID)
 end
 
 adventure.update = function(dt, adventure)
-  updateTimer(dt, "pause", adventure.timers)
+  updateTimer(dt, "pause", adventure.timers) -- update pause timer
+
+  if adventure.state == "boxGen" then
+    addBox()
+    boxTally = boxTally + 1
+    adventure.state = "box" .. tostring(boxTally)
+  end
 end
 
 adventure.draw = function(adventure)
@@ -48,10 +56,11 @@ adventure.draw = function(adventure)
   --love.graphics.setColor({255, 255, 255, 100})
   --love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
 
-  -- incase we want to draw text outside of the terminal log
-  love.graphics.setColor({255, 255, 255, 255})
-  love.graphics.setFont(bigTerminalFont)
-  love.graphics.printf("WELCOME", 0, 100, love.graphics.getWidth(), "center")
+  if adventure.state == "enter" then
+    love.graphics.setColor({255, 255, 255, 255})
+    love.graphics.setFont(bigTerminalFont)
+    love.graphics.printf("WELCOME", 0, 100, love.graphics.getWidth(), "center")
+  end
 
   -- employee ID
   if adventure.state == "enter" then
@@ -59,11 +68,18 @@ adventure.draw = function(adventure)
   end
 
   love.graphics.setFont(terminalFont)
+
+  -- draw a box
+  if adventure.state == "box" .. tostring(boxTally) then
+    drawBox(boxTally)
+  end
 end
 
 adventure.input = function(adventure, input)
-  if isTimerDone("pause", adventure.timers) then
+  if isTimerDone("pause", adventure.timers) and adventure.state ~= "box" .. tostring(boxTally) then
     unpauseLines() -- this'll work for now
+  elseif adventure.state == "box" .. tostring(boxTally) then -- might need more on this if..
+    checkBox(boxTally, input)
   end
 end
 
