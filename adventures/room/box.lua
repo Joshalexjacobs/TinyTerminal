@@ -49,35 +49,41 @@ end
 function checkBox(x, text)
   if boxes[x].idNum:lower() == text:lower() then
     print("correct ID")
-    idEntry = true
+    boxes[x].idEntry = true
   elseif boxes[x].corp:lower() == text:lower() then
     print("correct corp")
-    corpEntry = true
+    boxes[x].corpEntry = true
   elseif boxes[x].weight == text then
     print("correct weight")
-    weightEntry = true
+    boxes[x].weightEntry = true
   else
     print("incorrect")
   end
 end
 
-function updateBox()
-  -- update?
+function updateBox(x)
+  --if boxes[x].idEntry and boxes[x].corpEntry and boxes[x].weightEntry then
+    --boxes[x].idEntry = false
+    --boxes[x].corpEntry = false
+    --boxes[x].weightEntry = false
+
+    --print("box tall is " .. tostring(x))
+  --end
 end
 
 function drawBox(x) -- only draw the current box
   love.graphics.printf(boxes[x].idNum, 100, 100, 800)
-  if idEntry then
+  if boxes[x].idEntry then
     love.graphics.rectangle("fill", 100, 110, 100, 2)
   end
 
   love.graphics.printf(boxes[x].corp, 100, 150, 800)
-  if corpEntry then
+  if boxes[x].corpEntry then
     love.graphics.rectangle("fill", 100, 160, 100, 2)
   end
 
   love.graphics.printf(boxes[x].weight .. " lbs", 100, 200, 800)
-  if weightEntry then
+  if boxes[x].weightEntry then
     love.graphics.rectangle("fill", 100, 210, 100, 2)
   end
 end

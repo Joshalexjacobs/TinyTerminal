@@ -49,6 +49,8 @@ adventure.update = function(dt, adventure)
     boxTally = boxTally + 1
     adventure.state = "box" .. tostring(boxTally)
   end
+
+  updateBox(boxTally)
 end
 
 adventure.draw = function(adventure)
