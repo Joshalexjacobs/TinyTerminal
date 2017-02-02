@@ -62,13 +62,15 @@ function checkBox(x, text)
 end
 
 function updateBox(x)
-  --if boxes[x].idEntry and boxes[x].corpEntry and boxes[x].weightEntry then
-    --boxes[x].idEntry = false
-    --boxes[x].corpEntry = false
-    --boxes[x].weightEntry = false
+  if x <= 0 then return end
 
-    --print("box tall is " .. tostring(x))
-  --end
+  if boxes[x].idEntry and boxes[x].corpEntry and boxes[x].weightEntry then
+    boxes[x].idEntry = false
+    boxes[x].corpEntry = false
+    boxes[x].weightEntry = false
+
+    addLine("Box Complete", 0.0, false, false, {true, "boxGen"}) -- generates the next box
+  end
 end
 
 function drawBox(x) -- only draw the current box

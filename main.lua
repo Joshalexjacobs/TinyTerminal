@@ -22,6 +22,9 @@ function copy(obj, seen)
   return res
 end
 
+-- globals
+DEBUG = true
+
 function love.load(arg)
   math.randomseed(os.time()) -- seed love.math.rand() using os time
   love.graphics.setDefaultFilter("nearest", "nearest") -- set nearest pixel distance

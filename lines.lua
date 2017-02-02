@@ -181,5 +181,10 @@ function drawLines()
     love.graphics.rectangle("fill", cursor.x, cursor.y, cursor.w, cursor.h)
   end
 
-  love.graphics.printf(#lines, 0, 0, love.graphics.getWidth(), "right")
+  if DEBUG then
+    love.graphics.setColor({255, 0, 0, 255})
+    love.graphics.printf(#lines, 0, 0, love.graphics.getWidth(), "right")
+    love.graphics.printf("p:".. tostring((paused and 1 or 0)), 0, 0, love.graphics.getWidth() - 20, "right")
+    love.graphics.setColor({255, 255, 255, 255})
+  end
 end
