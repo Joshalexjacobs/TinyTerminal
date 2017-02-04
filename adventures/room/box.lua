@@ -13,6 +13,7 @@ local box = {
   idEntry = false,
   corpEntry = false,
   weightEntry = false,
+  sprite = "adventures/room/img/boxes/box"
 }
 
 local boxes = {} -- a home for our boxes, maybe 15-30 boxes max? an event box every 3-5?
@@ -42,6 +43,9 @@ function addBox()
   -- set Corporation and weight
   newBox.corp = corps[love.math.random(1, 3)]
   newBox.weight = tostring(love.math.random(500, 1500) * 0.11)
+
+  -- load random box img
+  newBox.sprite = love.graphics.newImage(newBox.sprite .. tostring(love.math.random(1, 6)) .. ".png")
 
   table.insert(boxes, newBox)
 end
@@ -74,6 +78,8 @@ function updateBox(x)
 end
 
 function drawBox(x) -- only draw the current box
+  love.graphics.draw(boxes[x].sprite, 250, 150)
+
   love.graphics.printf(boxes[x].idNum, 100, 100, 800)
   if boxes[x].idEntry then
     love.graphics.rectangle("fill", 100, 110, 100, 2)
