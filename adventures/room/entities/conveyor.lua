@@ -11,7 +11,7 @@ local conveyorBelt = {
     -- update function
   end,
   spriteSheet = "adventures/room/img/conveyor1.png",
-  spriteGrid = {x = 48, y = 48, w = 144, h = 288},
+  spriteGrid = {x = 64, y = 64, w = 192, h = 384},
   animations = function(grid)
     animations = {
       anim8.newAnimation(grid(1, 1), 0.1), -- 1 stopped

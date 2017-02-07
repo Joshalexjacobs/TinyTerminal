@@ -22,13 +22,14 @@ local boxTally = 0
 
 adventure.enter = function(adventure)
   -- load all entities
-  addEntity(0, 287, "conveyorBelt")
-  addEntity(48, 287, "conveyorBelt")
-  addEntity(96, 287, "conveyorBelt")
-  addEntity(144, 287, "conveyorBelt")
-  addEntity(192, 287, "conveyorBelt")
-  addEntity(240, 287, "conveyorBelt")
-  addEntity(288, 287, "conveyorBelt")
+  addEntity(0, 271, "conveyorBelt")
+  addEntity(64, 271, "conveyorBelt")
+  addEntity(128, 271, "conveyorBelt")
+  addEntity(192, 271, "conveyorBelt")
+  addEntity(256, 271, "conveyorBelt")
+  addEntity(320, 271, "conveyorBelt")
+  addEntity(384, 271, "conveyorBelt")
+  addEntity(448, 271, "conveyorBelt")
 
   addTimer(3.0, "pause", adventure.timers) -- add a timer that blocks user input
   setLineMax(3) -- set our line max to 3, make room for images/graphics
