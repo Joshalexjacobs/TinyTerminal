@@ -45,7 +45,7 @@ function addBox()
   newBox.weight = tostring(love.math.random(500, 1500) * 0.11)
 
   -- load random box img
-  newBox.sprite = love.graphics.newImage(newBox.sprite .. tostring(love.math.random(1, 6)) .. ".png")
+  newBox.sprite = maid64.newImage(newBox.sprite .. tostring(love.math.random(1, 6)) .. ".png")
 
   table.insert(boxes, newBox)
 end

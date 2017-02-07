@@ -1,6 +1,7 @@
 -- room.lua
 
 require "adventures/room/box"
+require "adventures/room/entity"
 
 local adventure = {
   name = "Room", -- name of our adventure
@@ -20,6 +21,15 @@ local assets = { -- a list of paths for our assets
 local boxTally = 0
 
 adventure.enter = function(adventure)
+  -- load all entities
+  addEntity(0, 287, "conveyorBelt")
+  addEntity(48, 287, "conveyorBelt")
+  addEntity(96, 287, "conveyorBelt")
+  addEntity(144, 287, "conveyorBelt")
+  addEntity(192, 287, "conveyorBelt")
+  addEntity(240, 287, "conveyorBelt")
+  addEntity(288, 287, "conveyorBelt")
+
   addTimer(3.0, "pause", adventure.timers) -- add a timer that blocks user input
   setLineMax(3) -- set our line max to 3, make room for images/graphics
 
@@ -38,7 +48,7 @@ adventure.enter = function(adventure)
   addLine("", 0.0, true, false, {true, "boxGen"}) -- if you need to clear the screen on user input
 
   -- load images:
-  assets.employeeID = love.graphics.newImage(assets.employeeID)
+  assets.employeeID = maid64.newImage(assets.employeeID)
 end
 
 adventure.update = function(dt, adventure)
@@ -51,6 +61,8 @@ adventure.update = function(dt, adventure)
   end
 
   updateBox(boxTally)
+
+  updateEntities(dt)
 end
 
 adventure.draw = function(adventure)
@@ -64,10 +76,17 @@ adventure.draw = function(adventure)
     love.graphics.printf("WELCOME", 0, 100, love.graphics.getWidth(), "center")
   end
 
+  -- start maid64 (only run maid64 for images, we don't want to apply it to text)
+  maid64.start()
+
   -- employee ID
   if adventure.state == "enter" then
     love.graphics.draw(assets.employeeID, 110, 150)
+  else
+    drawEntities()
   end
+
+  maid64.finish() -- end maid64
 
   love.graphics.setFont(terminalFont)
 

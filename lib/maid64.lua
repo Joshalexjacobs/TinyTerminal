@@ -3,7 +3,7 @@
 --        MIT license        --
 -- Copyright (c) 2016 adekto --
 maid64 = {mouse = {}}
-local PaletteSwitcher = require('lib/PaletteSwitcher')
+
 function maid64.setup(x,y)
     maid64.sizeX = x or 64
     maid64.sizeY = y or maid64.sizeX
@@ -18,18 +18,14 @@ function maid64.setup(x,y)
     maid64.canvas:setFilter("nearest","nearest")
 
     maid64.resize(love.graphics.getDimensions()) -- run resize so the sceen is reset corectly
-
-    PaletteSwitcher.init('lib/paletteSwitcher/palette.png', 'lib/paletteSwitcher/palette.fs');
 end
 
 maid64.start = function ()
 
       love.graphics.setCanvas(maid64.canvas)
       love.graphics.clear()
-      PaletteSwitcher.set();
     end
 maid64.finish = function ()
-       PaletteSwitcher.unset();
        love.graphics.setCanvas()
        --love.graphics.setShader() --used only for special shaders
        love.graphics.draw(maid64.canvas, maid64.x,maid64.y,0,maid64.scaler,maid64.scaler)
@@ -69,16 +65,4 @@ function maid64.newTileSet(image, x, y)
     quad[i] = love.graphics.newQuad((i%(image:getWidth()/x))*x, math.floor(i/(image:getWidth()/x))*y, x, y, image:getDimensions())
   end
   return quad
-end
-function maid64.nextPallet()
-  PaletteSwitcher.next()
-end
-function maid64.prevPallet()
-  PaletteSwitcher.prev()
-end
-function maid64.setPallet(i)
-  PaletteSwitcher.setPallet(i)
-end
-function maid64.getPaletteIndex()
-  return PaletteSwitcher.getPalette()
 end

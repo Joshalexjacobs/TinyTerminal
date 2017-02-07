@@ -3,7 +3,8 @@
 Gamestate = require "lib/Gamestate"
 require "lib/maid64" -- used for correct scaling
 require "lib/timer"
-require "lib/anim8" -- anim8
+anim8 = require "lib/anim8" -- anim8
+anim8 = require "lib/anim8" -- maid64
 require "lines" -- lines.lua
 require "commands/commands" -- commands.lua
 
@@ -31,6 +32,7 @@ function love.load(arg)
 
   --love.window.setMode(480, 432, {resizable=true, vsync=true, minwidth=160, minheight=144, msaa=0}) -- set the window mode
   love.window.setMode(256 * 2, 180 * 2, {resizable=false, borderless=true, vsync=true, msaa=0}) -- set the window mode
+  maid64.setup(256 * 2, 180 * 2)
 
   detailFont = love.graphics.newFont("lib/Monaco.dfont", 12)
   terminalFont = love.graphics.newFont("lib/Monaco.dfont", 16)
