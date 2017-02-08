@@ -1,9 +1,11 @@
 -- entityList.lua
 
 local conveyorBelt = require "adventures/room/entities/conveyor"
+local PRU = require "adventures/room/entities/PRU"
 
 local entityDictionary = {
-  {name = "conveyorBelt", entity = conveyorBelt}
+  {name = "conveyorBelt", entity = conveyorBelt},
+  {name = "PRU", entity = PRU}
 }
 
 function getEntity(entity) -- passes an actual entity object

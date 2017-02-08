@@ -1,8 +1,8 @@
 -- box.lua
 
 local box = {
-  x = 0,
-  y = 0,
+  x = 250,
+  y = 210,
   w = 0,
   h = 0,
   idNum = "", -- id number "X000-XX0-000"
@@ -47,6 +47,10 @@ function addBox()
   -- load random box img
   newBox.sprite = maid64.newImage(newBox.sprite .. tostring(love.math.random(1, 6)) .. ".png")
 
+  if newBox.sprite:getHeight() + newBox.y > 306 then  -- 306 is on the conveyor belt
+    newBox.y = newBox.y - ((newBox.sprite:getHeight() + newBox.y) - 306) -- correct the image if needed
+  end
+
   table.insert(boxes, newBox)
 end
 
@@ -78,7 +82,15 @@ function updateBox(x)
 end
 
 function drawBox(x) -- only draw the current box
-  love.graphics.draw(boxes[x].sprite, 250, 150)
+  maid64.start()
+  love.graphics.draw(boxes[x].sprite, boxes[x].x, boxes[x].y)
+  maid64.finish()
+
+  love.graphics.setColor({255, 255, 255, 255})
+  love.graphics.rectangle("fill", 85, 85, 185, 150)
+
+  love.graphics.setColor({0, 0, 0, 255})
+  love.graphics.rectangle("line", 90, 90, 175, 140)
 
   love.graphics.printf(boxes[x].idNum, 100, 100, 800)
   if boxes[x].idEntry then

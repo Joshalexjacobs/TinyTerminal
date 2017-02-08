@@ -30,7 +30,12 @@ function addEntity(x, y, name)
 end
 
 function updateEntities(dt)
+  for _, newEntity in ipairs(entities) do
+    newEntity.behaviour(dt, newEntity)
 
+    -- update each entities' animation
+    newEntity.animations[newEntity.curAnim]:update(dt)
+  end
 end
 
 function drawEntities()

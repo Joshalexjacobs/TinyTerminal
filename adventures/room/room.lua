@@ -31,6 +31,8 @@ adventure.enter = function(adventure)
   addEntity(384, 271, "conveyorBelt")
   addEntity(448, 271, "conveyorBelt")
 
+  addEntity(20, 207, "PRU")
+
   addTimer(3.0, "pause", adventure.timers) -- add a timer that blocks user input
   setLineMax(3) -- set our line max to 3, make room for images/graphics
 
