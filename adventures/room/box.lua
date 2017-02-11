@@ -106,4 +106,6 @@ function drawBox(x) -- only draw the current box
   if boxes[x].weightEntry then
     love.graphics.rectangle("fill", 100, 210, 100, 2)
   end
+
+  love.graphics.setColor({255, 255, 255, 255})
 end

@@ -48,8 +48,8 @@ adventure.enter = function(adventure)
   addLine("Shipping labels will contain the following:")
   addLine("1. Delivery ID Number")
   addLine("2. Corporation")
-  addLine("3. Weight (lbs)")
-  addLine("", 0.0, true, false, {true, "boxGen"}) -- if you need to clear the screen on user input
+  addLine("3. Weight (lbs)", 0.0, false, false, {true, "boxGen"})
+  --addLine("", 0.0, false, false, {true, "boxGen"}) -- if you need to clear the screen on user input
 
   -- load images:
   assets.employeeID = maid64.newImage(assets.employeeID)
@@ -79,7 +79,6 @@ adventure.draw = function(adventure)
   maid64.start()
   love.graphics.draw(assets.background, 0, 90)
 
-
   -- employee ID
   if adventure.state == "enter" then
     love.graphics.draw(assets.employeeID, 110, 150)
@@ -88,8 +87,6 @@ adventure.draw = function(adventure)
   end
 
   maid64.finish() -- end maid64
-
-  love.graphics.setFont(terminalFont)
 
   -- draw a box
   if adventure.state == "box" .. tostring(boxTally) then

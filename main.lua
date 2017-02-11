@@ -34,13 +34,21 @@ function love.load(arg)
   love.window.setMode(256 * 2, 180 * 2, {resizable=false, borderless=true, vsync=true, msaa=0}) -- set the window mode
   maid64.setup(256 * 2, 180 * 2)
 
+  -- fonts
   detailFont = love.graphics.newFont("lib/Monaco.dfont", 12)
   terminalFont = love.graphics.newFont("lib/Monaco.dfont", 16)
   bigTerminalFont = love.graphics.newFont("lib/Monaco.dfont", 20)
   love.graphics.setFont(terminalFont)
 
-  blockFont = love.graphics.newFont("lib/BLOKKRegular.ttf", 10)
-
+  -- shaders
+  --[[
+  canvas = love.graphics.newCanvas()
+  local str = love.filesystem.read('shaders/CRT-Simple.frag')
+  shader = love.graphics.newShader(str)
+  shader:send('inputSize', {love.graphics.getWidth(), love.graphics.getHeight()})
+  shader:send('textureSize', {love.graphics.getWidth(), love.graphics.getHeight()})
+  ]]
+  
   headerLoad()
 
   Gamestate.registerEvents()

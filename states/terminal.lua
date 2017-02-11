@@ -92,11 +92,8 @@ end
 
 function terminal:draw()
   drawLines()
-  --maid64.start() -- starts the maid64 process
 
   if adventureActive then -- call adventure draw
     curAdventure.draw(curAdventure)
   end
-
-  --maid64.finish() -- end maid64
 end
