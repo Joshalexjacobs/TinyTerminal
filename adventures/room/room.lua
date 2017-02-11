@@ -16,6 +16,7 @@ local adventure = {
 
 local assets = { -- a list of paths for our assets
   employeeID = "adventures/room/img/employeeID.png",
+  background = "adventures/room/img/background.png"
 }
 
 local boxTally = 0
@@ -52,6 +53,7 @@ adventure.enter = function(adventure)
 
   -- load images:
   assets.employeeID = maid64.newImage(assets.employeeID)
+  assets.background = maid64.newImage(assets.background)
 end
 
 adventure.update = function(dt, adventure)
@@ -73,14 +75,10 @@ adventure.draw = function(adventure)
   --love.graphics.setColor({255, 255, 255, 100})
   --love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
 
-  if adventure.state == "enter" then
-    love.graphics.setColor({255, 255, 255, 255})
-    love.graphics.setFont(bigTerminalFont)
-    love.graphics.printf("WELCOME", 0, 100, love.graphics.getWidth(), "center")
-  end
-
   -- start maid64 (only run maid64 for images, we don't want to apply it to text)
   maid64.start()
+  love.graphics.draw(assets.background, 0, 90)
+
 
   -- employee ID
   if adventure.state == "enter" then
