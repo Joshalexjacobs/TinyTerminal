@@ -7,8 +7,18 @@ local conveyorBelt = {
   offY = 1,
   name = "conveyorBelt",
   speed = 40, -- might need this?
+  timers = {},
   behaviour = function(dt, entity) -- update
     -- update function
+    if entity.curAnim == 1 then
+      entity.curAnim = 2
+    end
+
+    if isBoxMoving() then -- in the future slow down the belt before stopping completely
+      entity.animations[entity.curAnim]:pause()
+    else
+      entity.animations[entity.curAnim]:resume()
+    end
   end,
   spriteSheet = "adventures/room/img/conveyor1.png",
   spriteGrid = {x = 64, y = 64, w = 192, h = 384},

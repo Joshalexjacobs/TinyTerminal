@@ -32,7 +32,7 @@ adventure.enter = function(adventure)
   addEntity(384, 271, "conveyorBelt")
   addEntity(448, 271, "conveyorBelt")
 
-  addEntity(20, 207, "PRU")
+  addEntity(30, 207, "PRU")
 
   addTimer(3.0, "pause", adventure.timers) -- add a timer that blocks user input
   setLineMax(3) -- set our line max to 3, make room for images/graphics
@@ -65,7 +65,7 @@ adventure.update = function(dt, adventure)
     adventure.state = "box" .. tostring(boxTally)
   end
 
-  updateBox(boxTally)
+  updateBox(boxTally, dt)
 
   updateEntities(dt)
 end
@@ -79,26 +79,30 @@ adventure.draw = function(adventure)
   maid64.start()
   love.graphics.draw(assets.background, 0, 90)
 
+  -- draw all entities (that appear under our boxes)
+  drawEntities()
+
   -- employee ID
   if adventure.state == "enter" then
     love.graphics.draw(assets.employeeID, 110, 150)
-  else
-    drawEntities()
   end
 
   maid64.finish() -- end maid64
 
   -- draw a box
   if adventure.state == "box" .. tostring(boxTally) then
-    drawBox(boxTally)
+    drawBox()
+    drawLabel()
   end
+
+  -- drawPriorityEntities() -- draw entities that must draw over our boxes
 end
 
 adventure.input = function(adventure, input)
   if isTimerDone("pause", adventure.timers) and adventure.state ~= "box" .. tostring(boxTally) then
     unpauseLines() -- this'll work for now
   elseif adventure.state == "box" .. tostring(boxTally) then -- might need more on this if..
-    checkBox(boxTally, input)
+    checkBox(input)
   end
 end
 
@@ -112,6 +116,10 @@ return adventure
 
 1) there's going to be a ton of text to output, i should consider storing that in a seperate file somewhere and store that
 somewhere inside our adventure (should figure out a good file type, def not .txt and maybe avoid .lua).
+
+2) first event box has a guy in it
+
+3) last event box doesnt have a shipping label
 
 local event = { -- contains all info needed for the play to experience an event box
   -- functions, possible commands, results, etc...

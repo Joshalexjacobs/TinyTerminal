@@ -48,7 +48,7 @@ function love.load(arg)
   shader:send('inputSize', {love.graphics.getWidth(), love.graphics.getHeight()})
   shader:send('textureSize', {love.graphics.getWidth(), love.graphics.getHeight()})
   ]]
-  
+
   headerLoad()
 
   Gamestate.registerEvents()
@@ -71,6 +71,7 @@ function love.draw()
 end
 
 -- see if there is a love.moveWindow() function
+-- https://love2d.org/forums/viewtopic.php?t=80265
 -- that way the player can move the terminal around when clicking and dragging the header
 
 --[[ -- when maid64 is implemented in the near future
