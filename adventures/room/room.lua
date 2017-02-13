@@ -32,7 +32,7 @@ adventure.enter = function(adventure)
   addEntity(384, 271, "conveyorBelt")
   addEntity(448, 271, "conveyorBelt")
 
-  addEntity(30, 207, "PRU")
+  addEntity(30, 207, "PRU", true)
 
   addTimer(3.0, "pause", adventure.timers) -- add a timer that blocks user input
   setLineMax(3) -- set our line max to 3, make room for images/graphics
@@ -75,17 +75,10 @@ adventure.draw = function(adventure)
   --love.graphics.setColor({255, 255, 255, 100})
   --love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
 
-  -- start maid64 (only run maid64 for images, we don't want to apply it to text)
-  maid64.start()
+  maid64.start() -- start maid64 (only run maid64 for images, we don't want to apply it to text)
   love.graphics.draw(assets.background, 0, 90)
 
-  -- draw all entities (that appear under our boxes)
-  drawEntities()
-
-  -- employee ID
-  if adventure.state == "enter" then
-    love.graphics.draw(assets.employeeID, 110, 150)
-  end
+  drawEntities() -- draw all entities (that appear under our boxes)
 
   maid64.finish() -- end maid64
 
@@ -95,7 +88,16 @@ adventure.draw = function(adventure)
     drawLabel()
   end
 
-  -- drawPriorityEntities() -- draw entities that must draw over our boxes
+  maid64.start()
+
+  drawPriorityEntities() -- draw entities that must draw over our boxes
+
+  -- employee ID
+  if adventure.state == "enter" then
+    love.graphics.draw(assets.employeeID, 110, 150)
+  end
+
+  maid64.finish() -- end maid64
 end
 
 adventure.input = function(adventure, input)

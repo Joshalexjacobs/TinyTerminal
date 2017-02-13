@@ -18,15 +18,21 @@ local entity = {
   timers = {}
 }
 
+local priorityEntities = {}
 local entities = {}
 
-function addEntity(x, y, name)
+function addEntity(x, y, name, isPriority)
+  isPriority = isPriority or nil
   local newEntity = copy(entity, newEntity) -- copy base entity object
 
   newEntity.x, newEntity.y, newEntity.name  = x, y, name
   getEntity(newEntity)
 
-  table.insert(entities, newEntity)
+  if isPriority then
+    table.insert(priorityEntities, newEntity)
+  else
+    table.insert(entities, newEntity)
+  end
 end
 
 function updateEntities(dt)
@@ -35,6 +41,19 @@ function updateEntities(dt)
 
     -- update each entities' animation
     newEntity.animations[newEntity.curAnim]:update(dt)
+  end
+
+  for _, newEntity in ipairs(priorityEntities) do
+    newEntity.behaviour(dt, newEntity)
+
+    -- update each entities' animation
+    newEntity.animations[newEntity.curAnim]:update(dt)
+  end
+end
+
+function drawPriorityEntities()
+  for _, newEntity in ipairs(priorityEntities) do
+    newEntity.animations[newEntity.curAnim]:draw(newEntity.spriteSheet, newEntity.x, newEntity.y, 0, 1, 1, newEntity.offX, newEntity.offY)
   end
 end
 
