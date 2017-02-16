@@ -25,7 +25,8 @@ local conveyorBelt = {
   animations = function(grid)
     animations = {
       anim8.newAnimation(grid(1, 1), 0.1), -- 1 stopped -- probably won't need this, just need to start and stop anim 2
-      anim8.newAnimation(grid("1-3", "1-5", 1, 6), 0.1), -- 2 moving
+      anim8.newAnimation(grid("1-3", "1-5", 1, 6), 0.075), -- 2 moving new
+      --anim8.newAnimation(grid("1-3", "1-5", 1, 6), 0.1), -- 2 moving orginal
     }
     return animations
   end,

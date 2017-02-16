@@ -24,11 +24,13 @@ function terminal:keypressed(key, code)
   elseif key == "return" then
     if adventureActive then -- log input to the current adventure
       curAdventure.input(curAdventure, cleanInput(buffer))
+      resetCursor()
       table.insert(bufferLog, 2, buffer) -- reset buffer
       buffer = ""
       logPos = 1
     else
       addLine(username .. buffer, 0.0, false, true)
+      resetCursor()
       newCommand(buffer)
       table.insert(bufferLog, 2, buffer) -- the first position of bufferLog is always empty, so we push to the second position
       buffer = ""

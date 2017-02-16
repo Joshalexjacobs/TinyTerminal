@@ -17,7 +17,8 @@ local adventure = {
 
 local assets = { -- a list of paths for our assets
   employeeID = "adventures/room/img/employeeID.png",
-  background = "adventures/room/img/background.png"
+  background = "adventures/room/img/background3.png",
+  shadowOverlay = "adventures/room/img/shadowOverlay3.png"
 }
 
 local boxTally = 0
@@ -55,6 +56,7 @@ adventure.enter = function(adventure)
   -- load images:
   assets.employeeID = maid64.newImage(assets.employeeID)
   assets.background = maid64.newImage(assets.background)
+  assets.shadowOverlay = maid64.newImage(assets.shadowOverlay)
 end
 
 adventure.update = function(dt, adventure)
@@ -89,10 +91,12 @@ adventure.draw = function(adventure)
   -- draw a box
   if adventure.state == "box" .. tostring(boxTally) then
     drawBox()
-    drawLabel()
+    --drawLabel()
   end
 
   maid64.start()
+
+  love.graphics.draw(assets.shadowOverlay, 0, 90)
 
   drawPriorityEntities() -- draw entities that must draw over our boxes
 
@@ -102,6 +106,11 @@ adventure.draw = function(adventure)
   end
 
   maid64.finish() -- end maid64
+
+  -- draw a box
+  if adventure.state == "box" .. tostring(boxTally) then
+    drawLabel()
+  end
 end
 
 adventure.input = function(adventure, input)

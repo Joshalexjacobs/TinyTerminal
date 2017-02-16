@@ -21,7 +21,7 @@ local cursor = { -- our blinking cursor
   w = 8,
   h = 17.5,
   isOn = true,
-  pos = 0, -- for moving left and right (not in use)
+  pos = 0, -- for moving left and right (implementing)
   timers = {}
 }
 
@@ -62,6 +62,10 @@ function addLine(text, timer, clear, isBuffer, setTrigger)
   else
     table.insert(lines, newLine)
   end
+end
+
+function resetCursor()
+  cursor.pos = 2 -- must be reset to 2
 end
 
 function setLineMax(x) -- changes the line max from 18 to x
@@ -112,6 +116,12 @@ function clearLines() -- clears all lines
 end
 
 function updateBuffer(text)
+  if #text + 2 > #buffer then
+    cursor.pos = cursor.pos + 1
+  elseif #text + 2 < #buffer then
+    cursor.pos = cursor.pos - 1
+  end
+
   buffer = "> " .. text
 end
 
@@ -126,7 +136,8 @@ function updateCursor(dt) -- blink and move our cursor depending on buffer lengt
     end
   end
 
-  cursor.x = (#buffer * 10) + 5
+  cursor.x = (#buffer * 10) + 5 -- old
+  --cursor.x = ((cursor.pos + 1)* 10) + 5 -- new
 end
 
 function updateLines(dt)
