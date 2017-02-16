@@ -2,6 +2,7 @@
 
 require "adventures/room/box"
 require "adventures/room/entity"
+require "adventures/room/events"
 
 local adventure = {
   name = "Room", -- name of our adventure
@@ -68,6 +69,9 @@ adventure.update = function(dt, adventure)
   updateBox(boxTally, dt)
 
   updateEntities(dt)
+
+  -- test event
+  updateRoomEvents(dt)
 end
 
 adventure.draw = function(adventure)
