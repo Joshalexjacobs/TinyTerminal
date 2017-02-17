@@ -78,7 +78,7 @@ end
 
 adventure.draw = function(adventure)
   -- draws a box that shows our draw range
-  --love.graphics.setColor({255, 255, 255, 100})
+  --love.graphics.setColor({255, 255, 255, 255})
   --love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
 
   maid64.start() -- start maid64 (only run maid64 for images, we don't want to apply it to text)
@@ -111,6 +111,11 @@ adventure.draw = function(adventure)
   if adventure.state == "box" .. tostring(boxTally) then
     drawLabel()
   end
+
+  love.graphics.setColor({0, 0, 0, 255})
+  love.graphics.rectangle("line", 1, 90, love.graphics.getWidth() - 2, 245)
+
+  love.graphics.setColor({255, 255, 255, 255})
 end
 
 adventure.input = function(adventure, input)

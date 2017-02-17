@@ -31,6 +31,9 @@ function headerUpdate()
 end
 
 function headerDraw()
+  -- set line width
+  love.graphics.setLineWidth(4)
+
   -- top bar
   love.graphics.rectangle("line", -5, -5, love.graphics.getWidth() + 10, love.graphics.getHeight() * 0.10)
 
@@ -43,7 +46,6 @@ function headerDraw()
   end
 
   -- draw X
-  love.graphics.setLineWidth(3)
   love.graphics.line(10, 10, love.graphics.getHeight() * 0.10 - 15, love.graphics.getHeight() * 0.10 - 15)
   love.graphics.line(10, love.graphics.getHeight() * 0.10 - 15, love.graphics.getHeight() * 0.10 - 15, 10)
 

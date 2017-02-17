@@ -37,7 +37,12 @@ function terminal:keypressed(key, code)
       logPos = 1
     end
   elseif key == "backspace" then -- delete from buffer
-    buffer = string.sub(buffer, 1, #buffer - 1)
+    --buffer = string.sub(buffer, 1, #buffer - 1) -- old
+    local cPos = getCursorPos()
+    local latter = string.sub(buffer, cPos)
+    local former = string.sub(buffer, 0, cPos - 2)
+
+    buffer = former .. latter -- new
   elseif key == "up" then -- get previous input
     logPos = logPos + 1
     if logPos > #bufferLog then
@@ -50,12 +55,21 @@ function terminal:keypressed(key, code)
       logPos = 1
     end
     buffer = bufferLog[logPos]
+  elseif key == "left" then
+    moveCursor(key)
+  elseif key == "right" then
+    moveCursor(key)
   end
 end
 
 function terminal:textinput(t) -- add user keystrokes to existing input
   if inputEnabled and #buffer < maxBufferSize then
-    buffer = buffer .. t
+    --buffer = buffer .. t -- old
+    local cPos = getCursorPos()
+    local latter = string.sub(buffer, cPos)
+    local former = string.sub(buffer, 0, cPos - 1)
+
+    buffer = former .. t .. latter -- new
   end
 end
 

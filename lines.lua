@@ -13,7 +13,7 @@ local line = { -- a line object
 
 local lines = {} -- all of our lines that we're able to draw within the lineMax
 local overflow = {} -- all the lines in queue to be drawn
-local buffer = ""
+local buffer = ">"
 
 local cursor = { -- our blinking cursor
   x = 0,
@@ -64,8 +64,20 @@ function addLine(text, timer, clear, isBuffer, setTrigger)
   end
 end
 
+function getCursorPos()
+  return cursor.pos
+end
+
+function moveCursor(dir)
+  if dir == "left" then
+    cursor.pos = cursor.pos - 1
+  elseif dir == "right" and cursor.pos < #buffer - 1 then
+    cursor.pos = cursor.pos + 1
+  end
+end
+
 function resetCursor()
-  cursor.pos = 2 -- must be reset to 2
+  cursor.pos = 1
 end
 
 function setLineMax(x) -- changes the line max from 18 to x
@@ -117,10 +129,12 @@ end
 
 function updateBuffer(text)
   if #text + 2 > #buffer then
-    cursor.pos = cursor.pos + 1
+    cursor.pos = cursor.pos + ((#text + 2) - #buffer) -- add the difference to cursor.pos
   elseif #text + 2 < #buffer then
-    cursor.pos = cursor.pos - 1
+    cursor.pos = cursor.pos - (#buffer - (#text + 2)) -- subtract the difference
   end
+
+  if cursor.pos <= 0 then cursor.pos = 1 end
 
   buffer = "> " .. text
 end
@@ -136,8 +150,8 @@ function updateCursor(dt) -- blink and move our cursor depending on buffer lengt
     end
   end
 
-  cursor.x = (#buffer * 10) + 5 -- old
-  --cursor.x = ((cursor.pos + 1)* 10) + 5 -- new
+  --cursor.x = (#buffer * 10) + 5 -- old
+  cursor.x = ((cursor.pos + 1) * 10) + 5 -- new
 end
 
 function updateLines(dt)

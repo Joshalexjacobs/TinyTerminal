@@ -81,9 +81,9 @@ end
 function isBoxMoving()
   if curX <= 0 then return
   elseif boxes[curX].x <= 250 then
-    return true
-  else
     return false
+  else
+    return true
   end
 end
 

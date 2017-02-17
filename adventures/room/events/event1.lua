@@ -11,7 +11,7 @@ thisEvent.load = function()
 end
 
 thisEvent.update = function(dt)
-  print("event test")
+  --print("event test")
 end
 
 thisEvent.draw = function()
