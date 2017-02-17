@@ -17,7 +17,7 @@ local adventure = {
 
 local assets = { -- a list of paths for our assets
   employeeID = "adventures/room/img/employeeID.png",
-  background = "adventures/room/img/background3.png",
+  background = "adventures/room/img/background4.png",
   shadowOverlay = "adventures/room/img/shadowOverlay3.png"
 }
 
