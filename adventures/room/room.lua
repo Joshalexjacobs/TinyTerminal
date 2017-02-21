@@ -51,7 +51,6 @@ adventure.enter = function(adventure)
   addLine("1. Delivery ID Number")
   addLine("2. Corporation")
   addLine("3. Weight (lbs)", 0.0, false, false, {true, "boxGen"})
-  --addLine("", 0.0, false, false, {true, "boxGen"}) -- if you need to clear the screen on user input
 
   -- load images:
   assets.employeeID = maid64.newImage(assets.employeeID)
@@ -62,25 +61,25 @@ end
 adventure.update = function(dt, adventure)
   updateTimer(dt, "pause", adventure.timers) -- update pause timer
 
-  if adventure.state == "boxGen" then
+  if adventure.state == "boxGen" and boxTally % 3 == 0 and boxTally ~= 0 then
+    activateEvent(true)
+    --addBox()
+    boxTally = boxTally + 1
+    adventure.state = "event" .. tostring(boxTally)
+  elseif adventure.state == "boxGen" then
     addBox()
     boxTally = boxTally + 1
     adventure.state = "box" .. tostring(boxTally)
   end
 
+  updateRoomEvents(dt) -- needs to come before updateBox
+
   updateBox(boxTally, dt)
 
   updateEntities(dt)
-
-  -- test event
-  updateRoomEvents(dt)
 end
 
 adventure.draw = function(adventure)
-  -- draws a box that shows our draw range
-  --love.graphics.setColor({255, 255, 255, 255})
-  --love.graphics.rectangle("line", -1, 90, love.graphics.getWidth() + 2, 245)
-
   maid64.start() -- start maid64 (only run maid64 for images, we don't want to apply it to text)
   love.graphics.draw(assets.background, 0, 90)
 
@@ -89,9 +88,8 @@ adventure.draw = function(adventure)
   maid64.finish() -- end maid64
 
   -- draw a box
-  if adventure.state == "box" .. tostring(boxTally) then
+  if adventure.state ~= "enter" then
     drawBox()
-    --drawLabel()
   end
 
   maid64.start()
@@ -137,9 +135,11 @@ return adventure
 1) there's going to be a ton of text to output, i should consider storing that in a seperate file somewhere and store that
 somewhere inside our adventure (should figure out a good file type, def not .txt and maybe avoid .lua).
 
-2) first event box has a guy in it
+2) first event box doesnt have a shipping label
 
-3) last event box doesnt have a shipping label
+3) last event box has a guy in it
+
+
 
 local event = { -- contains all info needed for the play to experience an event box
   -- functions, possible commands, results, etc...

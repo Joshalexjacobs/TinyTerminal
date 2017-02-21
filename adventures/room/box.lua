@@ -54,7 +54,7 @@ local function randomID(n)
   return x:upper()
 end
 
-function addBox()
+function addBox(string)
   local newBox = copy(box, newBox) -- copy base box object
 
   newBox.idNum = randomID(love.math.random(12, 16)) -- 16 character is the MAX
@@ -63,8 +63,13 @@ function addBox()
   newBox.corp = corps[love.math.random(1, 3)]
   newBox.weight = tostring(love.math.random(500, 1500) * 0.11)
 
-  -- load random box img
-  newBox.sprite = maid64.newImage(newBox.sprite .. tostring(love.math.random(1, 6)) .. ".png")
+  if string ~= nil then
+    -- load specific image
+    newBox.sprite = maid64.newImage(string)
+  else
+    -- load random box img
+    newBox.sprite = maid64.newImage(newBox.sprite .. tostring(love.math.random(1, 6)) .. ".png")
+  end
 
   if newBox.sprite:getHeight() + newBox.y > 306 then  -- 306 is on the conveyor belt
     newBox.y = newBox.y - ((newBox.sprite:getHeight() + newBox.y) - 306) -- correct the image if needed
@@ -102,6 +107,15 @@ function checkBox(text)
     boxes[curX].iCount = boxes[curX].iCount + 1
   else
     print("incorrect")
+  end
+
+  if text == "josh" then
+    boxes[curX].weightEntry = true
+    boxes[curX].iCount = boxes[curX].iCount + 1
+    boxes[curX].corpEntry = true
+    boxes[curX].iCount = boxes[curX].iCount + 1
+    boxes[curX].idEntry = true
+    boxes[curX].iCount = boxes[curX].iCount + 1
   end
 end
 
