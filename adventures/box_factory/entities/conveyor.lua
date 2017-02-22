@@ -25,7 +25,7 @@ local conveyorBelt = {
       deleteTimer("stop", entity.timers) -- and delete the stop timer
     end
   end,
-  spriteSheet = "adventures/room/img/conveyor1.png",
+  spriteSheet = "adventures/box_factory/img/conveyor1.png",
   spriteGrid = {x = 64, y = 64, w = 192, h = 384},
   animations = function(grid)
     animations = {

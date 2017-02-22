@@ -2,7 +2,7 @@
 -- keeps track of all adventures
 
 local adventures = {
-  require "adventures/room/room" -- our adventure files
+  require "adventures/box_factory/box_factory" -- our adventure files
 }
 
 function getAdventureNames() -- returns a list of adentures

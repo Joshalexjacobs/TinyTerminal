@@ -12,21 +12,31 @@
 
 local thisEvent = {
   name = "noLabel",
+  desc = "",
+  state = "close",
   load = nil,
   update = nil,
   draw = nil,
   timers = {},
-  sprite = "adventures/room/img/boxes/box_noLabel.png"
+  sprite = "adventures/box_factory/img/boxes/box_noLabel.png",
+  input = nil,
+  newInput = false
 }
 
 thisEvent.load = function()
-
+  --addEntity(0, 0, "noLabelEntity")
+  --addEntity(0, 0, "bomb")
 end
 
 thisEvent.update = function(dt, event)
   if checkTimer("start", event.timers) == false then
     addTimer(0.0, "start", event.timers)
     addBox(event.sprite)
+  end
+
+  if event.newInput then
+    -- check input
+    event.newInput = false
   end
 end
 
@@ -35,3 +45,20 @@ thisEvent.draw = function(event)
 end
 
 return thisEvent
+
+-- possible openning commands:
+--[[
+    open
+    open box
+    cut
+    cut open
+    cut box
+]]
+
+-- other possible commands:
+--[[
+    look
+    look inside
+    examine
+    investigate
+]]

@@ -1,7 +1,7 @@
 -- entityList.lua
 
-local conveyorBelt = require "adventures/room/entities/conveyor"
-local PRU = require "adventures/room/entities/PRU"
+local conveyorBelt = require "adventures/box_factory/entities/conveyor"
+local PRU = require "adventures/box_factory/entities/PRU"
 
 local entityDictionary = {
   {name = "conveyorBelt", entity = conveyorBelt},

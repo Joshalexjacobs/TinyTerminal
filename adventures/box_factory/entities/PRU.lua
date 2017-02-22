@@ -22,7 +22,7 @@ local PRU = {
       deleteTimer("next", entity.timers)
     end
   end,
-  spriteSheet = "adventures/room/img/PRU.png",
+  spriteSheet = "adventures/box_factory/img/PRU.png",
   spriteGrid = {x = 128, y = 128, w = 384, h = 256},
   animations = function(grid)
     animations = {         -- r, c

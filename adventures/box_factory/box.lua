@@ -18,7 +18,7 @@ local box = {
   corpEntry = false,
   weightEntry = false,
   iCount = 0,
-  sprite = "adventures/room/img/boxes/box"
+  sprite = "adventures/box_factory/img/boxes/box"
 }
 
 local boxes = {} -- a home for our boxes, maybe 15-30 boxes max? an event box every 3-5?
@@ -93,15 +93,15 @@ function isBoxMoving()
 end
 
 function checkBox(text)
-  if boxes[curX].idNum:lower() == text:lower() then
+  if boxes[curX].idNum:lower() == text:lower() and boxes[curX].idEntry == false then
     print("correct ID")
     boxes[curX].idEntry = true
     boxes[curX].iCount = boxes[curX].iCount + 1
-  elseif boxes[curX].corp:lower() == text:lower() then
+  elseif boxes[curX].corp:lower() == text:lower() and boxes[curX].corpEntry == false then
     print("correct corp")
     boxes[curX].corpEntry = true
     boxes[curX].iCount = boxes[curX].iCount + 1
-  elseif boxes[curX].weight == text then
+  elseif boxes[curX].weight == text and boxes[curX].weightEntry == false then
     print("correct weight")
     boxes[curX].weightEntry = true
     boxes[curX].iCount = boxes[curX].iCount + 1
@@ -158,19 +158,10 @@ function drawLabel()
   love.graphics.rectangle("line", 10, 105, 175, 90)
 
   love.graphics.printf(boxes[curX].idNum, 17.5, 110, 800)
-  if boxes[curX].idEntry then
-    love.graphics.rectangle("fill", 100, 110, 100, 2)
-  end
 
   love.graphics.printf(boxes[curX].corp, 17.5, 135, 800)
-  if boxes[curX].corpEntry then
-    love.graphics.rectangle("fill", 100, 160, 100, 2)
-  end
 
   love.graphics.printf(boxes[curX].weight .. " lbs", 17.5, 160, 800)
-  if boxes[curX].weightEntry then
-    love.graphics.rectangle("fill", 100, 210, 100, 2)
-  end
 
   love.graphics.setColor({255, 255, 255, 255})
 end

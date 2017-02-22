@@ -1,11 +1,11 @@
--- room.lua
+-- box_factory.lua
 
-require "adventures/room/box"
-require "adventures/room/entity"
-require "adventures/room/events"
+require "adventures/box_factory/box"
+require "adventures/box_factory/entity"
+require "adventures/box_factory/events"
 
 local adventure = {
-  name = "Room", -- name of our adventure
+  name = "box_factory.adv", -- name of our adventure
   state = "enter", -- determines which function to call (unused rn)
   enter = nil, -- our load function
   update = nil, -- update function
@@ -16,9 +16,9 @@ local adventure = {
 }
 
 local assets = { -- a list of paths for our assets
-  employeeID = "adventures/room/img/employeeID.png",
-  background = "adventures/room/img/background4.png",
-  shadowOverlay = "adventures/room/img/shadowOverlay3.png"
+  employeeID = "adventures/box_factory/img/employeeID.png",
+  background = "adventures/box_factory/img/background4.png",
+  shadowOverlay = "adventures/box_factory/img/shadowOverlay3.png"
 }
 
 local boxTally = 0
@@ -63,7 +63,6 @@ adventure.update = function(dt, adventure)
 
   if adventure.state == "boxGen" and boxTally % 3 == 0 and boxTally ~= 0 then
     activateEvent(true)
-    --addBox()
     boxTally = boxTally + 1
     adventure.state = "event" .. tostring(boxTally)
   elseif adventure.state == "boxGen" then
@@ -72,7 +71,7 @@ adventure.update = function(dt, adventure)
     adventure.state = "box" .. tostring(boxTally)
   end
 
-  updateRoomEvents(dt) -- needs to come before updateBox
+  updateBoxFactEvents(dt) -- needs to come before updateBox
 
   updateBox(boxTally, dt)
 
@@ -117,10 +116,13 @@ adventure.draw = function(adventure)
 end
 
 adventure.input = function(adventure, input)
-  if isTimerDone("pause", adventure.timers) and adventure.state ~= "box" .. tostring(boxTally) then
+  if isTimerDone("pause", adventure.timers) and adventure.state ~= "box" .. tostring(boxTally) and adventure.state ~= "event" .. tostring(boxTally) then
     unpauseLines() -- this'll work for now
+    print("unpause lines??")
   elseif adventure.state == "box" .. tostring(boxTally) then -- might need more on this if..
     checkBox(input)
+  elseif adventure.state == "event" .. tostring(boxTally) then
+    passEventInput(input)
   end
 end
 

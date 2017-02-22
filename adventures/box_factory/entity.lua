@@ -1,6 +1,6 @@
 -- entity.lua
 
-require "adventures/room/entityList"
+require "adventures/box_factory/entityList"
 
 local entity = {
   x = 0,

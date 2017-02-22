@@ -1,8 +1,7 @@
 --events.lua
 
 local events = {
-  require "adventures/room/events/noLabel",
-  require "adventures/room/events/event1"
+  require "adventures/box_factory/events/noLabel",
 }
 
 local isActive = false
@@ -16,7 +15,14 @@ function activateEvent(bool)
   isActive = bool
 end
 
-function updateRoomEvents(dt)
+function passEventInput(input)
+  if isActive then
+    events[curEvent].input = input
+    events[curEvent].newInput = true
+  end
+end
+
+function updateBoxFactEvents(dt)
   if isActive then
     events[curEvent].update(dt, events[curEvent])
   end
