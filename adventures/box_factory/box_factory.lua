@@ -118,7 +118,6 @@ end
 adventure.input = function(adventure, input)
   if isTimerDone("pause", adventure.timers) and adventure.state ~= "box" .. tostring(boxTally) and adventure.state ~= "event" .. tostring(boxTally) then
     unpauseLines() -- this'll work for now
-    print("unpause lines??")
   elseif adventure.state == "box" .. tostring(boxTally) then -- might need more on this if..
     checkBox(input)
   elseif adventure.state == "event" .. tostring(boxTally) then

@@ -10,6 +10,8 @@
 
 -- if the player does not cut the wire in time...
 
+local commands = require "commands/noLabel/noLabelCmds"
+
 local thisEvent = {
   name = "noLabel",
   desc = "",
@@ -20,7 +22,8 @@ local thisEvent = {
   timers = {},
   sprite = "adventures/box_factory/img/boxes/box_noLabel.png",
   input = nil,
-  newInput = false
+  newInput = false,
+  checkInput = nil
 }
 
 thisEvent.load = function()
@@ -28,14 +31,34 @@ thisEvent.load = function()
   --addEntity(0, 0, "bomb")
 end
 
+thisEvent.checkInput = function(event)
+  for _, command in ipairs(commands) do
+    if command.name == event.input:lower() then
+      command.call(event)
+      return
+    else
+      for i = 1, #command.alias do
+        if command.alias[i] == event.input:lower() then
+          command.call(event)
+          return
+        end
+      end
+    end
+  end
+
+  addLine("You're not sure what that means.")
+end
+
 thisEvent.update = function(dt, event)
   if checkTimer("start", event.timers) == false then
     addTimer(0.0, "start", event.timers)
     addBox(event.sprite)
+    addLine("Enter 1 word commands to interact.")
+    event.desc = "This box doesn't appear to have a label."
   end
 
   if event.newInput then
-    -- check input
+    event.checkInput(event)
     event.newInput = false
   end
 end
