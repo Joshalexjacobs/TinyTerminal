@@ -46,6 +46,24 @@ local noLabelCmds = {
       end
     end
   },
+  { -- 4
+    name = "grab", -- command name
+    alias = {"pick up"}, -- other words that will trigger this command
+    text = {""}, -- text if needed
+    desc = "", -- description
+    paramNum = 0, -- number of parameters
+    call = function(event) -- command function when called
+      if event.state == "open" then
+        addLine("You reach inside and pull out a bomb.")
+        event.desc = "You're holding what appears to be a bomb."
+        event.state = "bomb"
+      elseif event.state == "bomb" then
+        addLine("You're already holding the bomb.")
+      else
+        addLine("There is nothing to grab.")
+      end
+    end
+  },
 }
 
 return noLabelCmds
