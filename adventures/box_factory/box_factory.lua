@@ -65,6 +65,7 @@ adventure.update = function(dt, adventure)
     activateEvent(true)
     boxTally = boxTally + 1
     adventure.state = "event" .. tostring(boxTally)
+    loadRoomEvents()
   elseif adventure.state == "boxGen" then
     addBox()
     boxTally = boxTally + 1

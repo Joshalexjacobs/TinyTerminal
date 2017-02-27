@@ -7,8 +7,8 @@ local events = {
 local isActive = false
 local curEvent = 1
 
-function loadRoomEvents(n)
-  print(n)
+function loadRoomEvents()
+  events[curEvent].load()
 end
 
 function activateEvent(bool)

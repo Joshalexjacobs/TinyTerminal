@@ -51,6 +51,8 @@ function updateEntities(dt)
   end
 end
 
+-- need to add entity draw functions
+
 function drawPriorityEntities()
   for _, newEntity in ipairs(priorityEntities) do
     newEntity.animations[newEntity.curAnim]:draw(newEntity.spriteSheet, newEntity.x, newEntity.y, 0, 1, 1, newEntity.offX, newEntity.offY)

@@ -28,7 +28,7 @@ local thisEvent = {
 
 thisEvent.load = function()
   --addEntity(0, 0, "noLabelEntity")
-  --addEntity(0, 0, "bomb")
+  addEntity(250, 150, "bomb", true)
 end
 
 thisEvent.checkInput = function(event)
@@ -46,7 +46,7 @@ thisEvent.checkInput = function(event)
     end
   end
 
-  addLine("You're not sure what that means.")
+  addLine("I don't think I can do that.")
 end
 
 thisEvent.update = function(dt, event)

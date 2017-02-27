@@ -2,10 +2,12 @@
 
 local conveyorBelt = require "adventures/box_factory/entities/conveyor"
 local PRU = require "adventures/box_factory/entities/PRU"
+local bomb = require "adventures/box_factory/entities/bomb"
 
 local entityDictionary = {
   {name = "conveyorBelt", entity = conveyorBelt},
-  {name = "PRU", entity = PRU}
+  {name = "PRU", entity = PRU},
+  {name = "bomb", entity = bomb}
 }
 
 function getEntity(entity) -- passes an actual entity object
