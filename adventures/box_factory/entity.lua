@@ -55,12 +55,14 @@ end
 
 function drawPriorityEntities()
   for _, newEntity in ipairs(priorityEntities) do
-    newEntity.animations[newEntity.curAnim]:draw(newEntity.spriteSheet, newEntity.x, newEntity.y, 0, 1, 1, newEntity.offX, newEntity.offY)
+    newEntity.draw(newEntity)
+    --newEntity.animations[newEntity.curAnim]:draw(newEntity.spriteSheet, newEntity.x, newEntity.y, 0, 1, 1, newEntity.offX, newEntity.offY)
   end
 end
 
 function drawEntities()
   for _, newEntity in ipairs(entities) do
-    newEntity.animations[newEntity.curAnim]:draw(newEntity.spriteSheet, newEntity.x, newEntity.y, 0, 1, 1, newEntity.offX, newEntity.offY)
+    newEntity.draw(newEntity)
+    --newEntity.animations[newEntity.curAnim]:draw(newEntity.spriteSheet, newEntity.x, newEntity.y, 0, 1, 1, newEntity.offX, newEntity.offY)
   end
 end

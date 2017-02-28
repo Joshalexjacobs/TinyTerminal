@@ -34,6 +34,9 @@ local conveyorBelt = {
     }
     return animations
   end,
+  draw = function(entity)
+    entity.animations[entity.curAnim]:draw(entity.spriteSheet, entity.x, entity.y, 0, 1, 1, entity.offX, entity.offY)
+  end
 }
 
 return conveyorBelt

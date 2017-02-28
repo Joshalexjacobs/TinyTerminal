@@ -15,6 +15,10 @@ function activateEvent(bool)
   isActive = bool
 end
 
+function getCurEvent()
+  return events[curEvent]
+end
+
 function passEventInput(input)
   if isActive then
     events[curEvent].input = input

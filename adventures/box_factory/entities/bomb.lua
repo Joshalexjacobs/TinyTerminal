@@ -19,7 +19,13 @@ local bomb = {
     }
     return animations
   end,
-  draw = nil
+  draw = function(entity)
+    local event = getCurEvent()
+    
+    if event.name == "noLabel" and event.getState() == "bomb" then
+      entity.animations[entity.curAnim]:draw(entity.spriteSheet, entity.x, entity.y, 0, 1, 1, entity.offX, entity.offY)
+    end
+  end
 }
 
 return bomb

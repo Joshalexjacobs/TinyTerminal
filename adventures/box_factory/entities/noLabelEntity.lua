@@ -18,6 +18,9 @@ local noLabelEntity = {
       -- anim8.newAnimation(grid(1, 1), 0.1), -- 1
     }
     return animations
+  end,
+  draw = function(entity)
+    entity.animations[entity.curAnim]:draw(entity.spriteSheet, entity.x, entity.y, 0, 1, 1, entity.offX, entity.offY)
   end
 }
 

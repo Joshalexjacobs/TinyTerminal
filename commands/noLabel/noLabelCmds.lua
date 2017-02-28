@@ -3,7 +3,7 @@
 local noLabelCmds = {
   { -- 1
     name = "look", -- command name
-    alias = {"examine", "check"}, -- other words that will trigger this command
+    alias = {"examine", "check", "look inside", "investigate"}, -- other words that will trigger this command
     text = {""}, -- text if needed
     desc = "", -- description
     paramNum = 0, -- number of parameters
@@ -13,7 +13,7 @@ local noLabelCmds = {
   },
   { -- 2
     name = "open",
-    alias = {"cut", "tear"},
+    alias = {"cut", "tear", "open box", "cut open", "cut box"},
     text = {""},
     desc = "",
     paramNum = 0,
@@ -42,7 +42,7 @@ local noLabelCmds = {
         addLine("I think there's something in there.")
       elseif event.state == "bomb" then
         addLine("Looks like a bomb... Feels like a bomb...")
-        addLine("Ticking just like a bomb would...")
+        addLine("I should probably not let this thing blow up.")
       end
     end
   },
@@ -55,7 +55,7 @@ local noLabelCmds = {
     call = function(event) -- command function when called
       if event.state == "open" then
         addLine("You reach inside and pull out a bomb.")
-        event.desc = "You're holding what appears to be a bomb."
+        event.desc = "You're holding what appears to be a bomb. There are 4 wires: Red, Blue, Yellow, and Green"
         event.state = "bomb"
       elseif event.state == "bomb" then
         addLine("You're already holding the bomb.")

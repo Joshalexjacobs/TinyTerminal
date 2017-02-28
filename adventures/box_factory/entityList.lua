@@ -22,6 +22,7 @@ function getEntity(entity) -- passes an actual entity object
 
       entity.spriteGrid = anim8.newGrid(entity.spriteGrid.x, entity.spriteGrid.y, entity.spriteGrid.w, entity.spriteGrid.h, 0, 0, 0)
       entity.animations = ourEntity.animations(entity.spriteGrid)
+      entity.draw = ourEntity.draw
     end
   end
 end

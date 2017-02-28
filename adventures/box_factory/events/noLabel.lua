@@ -23,7 +23,8 @@ local thisEvent = {
   sprite = "adventures/box_factory/img/boxes/box_noLabel.png",
   input = nil,
   newInput = false,
-  checkInput = nil
+  checkInput = nil,
+  getState = nil
 }
 
 thisEvent.load = function()
@@ -49,6 +50,8 @@ thisEvent.checkInput = function(event)
   addLine("I don't think I can do that.")
 end
 
+thisEvent.getState = function() return thisEvent.state end
+
 thisEvent.update = function(dt, event)
   if checkTimer("start", event.timers) == false then
     addTimer(0.0, "start", event.timers)
@@ -68,20 +71,3 @@ thisEvent.draw = function(event)
 end
 
 return thisEvent
-
--- possible openning commands:
---[[
-    open
-    open box
-    cut
-    cut open
-    cut box
-]]
-
--- other possible commands:
---[[
-    look
-    look inside
-    examine
-    investigate
-]]
