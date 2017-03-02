@@ -50,6 +50,20 @@ function isTimerDone(name, timerList)
   end
 end
 
+function getTime(name, timerList)
+  if #timerList <= 0 then
+    return false
+  end -- if timerList does not contain any timers
+
+  index = findTimer(name, timerList)
+
+  if index == 0 then
+    return false
+  else
+    return timerList[index].time
+  end
+end
+
 function updateTimer(dt, name, timerList) -- update all existing timers
   if #timerList <= 0 then
     --print("no timers found")
